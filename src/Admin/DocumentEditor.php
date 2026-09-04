@@ -7,16 +7,20 @@ namespace OzekiMarkdownDocuments\Admin;
 use OzekiMarkdownDocuments\Content\DocumentMeta;
 use OzekiMarkdownDocuments\Content\DocumentPostType;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
+use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
 final class DocumentEditor
 {
     private const NONCE_ACTION = 'ozmd_save_markdown_source';
     private const NONCE_NAME = 'ozmd_source_nonce';
     private const NOTICE_KEY_PREFIX = 'ozmd_source_notice_';
+    private const PREVIEW_ACTION = 'ozmd_preview_markdown';
+    private const PREVIEW_MAX_BYTES = 5 * MB_IN_BYTES;
 
     public function __construct(
         private readonly DocumentMeta $meta,
         private readonly MarkdownSource $markdownSource,
+        private readonly MarkdownRenderer $renderer,
         private readonly string $pluginFile
     ) {
     }
@@ -27,6 +31,7 @@ final class DocumentEditor
         add_action('save_post_' . DocumentPostType::POST_TYPE, [$this, 'save'], 10, 2);
         add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
         add_action('admin_notices', [$this, 'showNotice']);
+        add_action('wp_ajax_' . self::PREVIEW_ACTION, [$this, 'preview']);
     }
 
     public function addMetaBox(): void
@@ -52,9 +57,23 @@ final class DocumentEditor
             'ozeki-markdown-documents'
         );
         echo '</p>';
-        echo '<textarea class="widefat code ozmd-source" name="ozmd_source" rows="28" spellcheck="false">';
+        echo '<div class="ozmd-editor-grid">';
+        echo '<section class="ozmd-editor-pane">';
+        echo '<label class="ozmd-pane-heading" for="ozmd-source">';
+        echo esc_html__('Markdown', 'ozeki-markdown-documents');
+        echo '</label>';
+        echo '<textarea id="ozmd-source" class="widefat code ozmd-source" name="ozmd_source" rows="28" spellcheck="false">';
         echo esc_textarea($source);
         echo '</textarea>';
+        echo '</section>';
+        echo '<section class="ozmd-preview-pane">';
+        echo '<div class="ozmd-preview-heading">';
+        echo '<span>' . esc_html__('Preview', 'ozeki-markdown-documents') . '</span>';
+        echo '<span id="ozmd-preview-status" class="ozmd-preview-status" role="status" aria-live="polite"></span>';
+        echo '</div>';
+        echo '<div id="ozmd-preview" class="ozmd-preview" aria-live="polite"></div>';
+        echo '</section>';
+        echo '</div>';
     }
 
     public function save(int $postId, \WP_Post $post): void
@@ -113,6 +132,76 @@ final class DocumentEditor
             [],
             '0.1.0-dev'
         );
+
+        wp_enqueue_script(
+            'ozmd-admin',
+            plugins_url('assets/admin.js', $this->pluginFile),
+            [],
+            '0.1.0-dev',
+            true
+        );
+
+        $postId = isset($_GET['post'])
+            ? absint(wp_unslash($_GET['post']))
+            : 0;
+
+        wp_localize_script(
+            'ozmd-admin',
+            'ozmdPreview',
+            [
+                'action' => self::PREVIEW_ACTION,
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce(self::PREVIEW_ACTION),
+                'postId' => $postId,
+                'labels' => [
+                    'loading' => __('Updating preview…', 'ozeki-markdown-documents'),
+                    'ready' => __('Preview updated', 'ozeki-markdown-documents'),
+                    'error' => __('Preview could not be updated.', 'ozeki-markdown-documents'),
+                ],
+            ]
+        );
+    }
+
+    public function preview(): void
+    {
+        check_ajax_referer(self::PREVIEW_ACTION, 'nonce');
+
+        $postId = isset($_POST['post_id']) ? absint(wp_unslash($_POST['post_id'])) : 0;
+        $allowed = $postId > 0
+            ? current_user_can('edit_post', $postId)
+            : current_user_can('edit_posts');
+
+        if (! $allowed) {
+            wp_send_json_error(
+                ['message' => __('You are not allowed to preview this document.', 'ozeki-markdown-documents')],
+                403
+            );
+        }
+
+        $source = isset($_POST['source'])
+            ? (string) wp_unslash($_POST['source'])
+            : '';
+
+        if (
+            strlen($source) > self::PREVIEW_MAX_BYTES
+            || ! $this->markdownSource->isValid($source)
+        ) {
+            wp_send_json_error(
+                ['message' => __('Preview requires valid UTF-8 Markdown within the size limit.', 'ozeki-markdown-documents')],
+                400
+            );
+        }
+
+        try {
+            $html = $this->renderer->render($source);
+        } catch (\Throwable) {
+            wp_send_json_error(
+                ['message' => __('The Markdown preview could not be rendered.', 'ozeki-markdown-documents')],
+                500
+            );
+        }
+
+        wp_send_json_success(['html' => $html]);
     }
 
     public function showNotice(): void

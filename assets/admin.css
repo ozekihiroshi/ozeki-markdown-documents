@@ -5,3 +5,76 @@
     tab-size: 4;
     white-space: pre;
 }
+
+.ozmd-editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem;
+}
+
+.ozmd-editor-pane,
+.ozmd-preview-pane {
+    min-width: 0;
+}
+
+.ozmd-pane-heading,
+.ozmd-preview-heading {
+    display: flex;
+    min-height: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.ozmd-preview-status {
+    color: #646970;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ozmd-preview-status.is-error {
+    color: #b32d2e;
+}
+
+.ozmd-preview {
+    box-sizing: border-box;
+    min-height: 32rem;
+    max-height: 48rem;
+    overflow: auto;
+    padding: 1rem 1.25rem;
+    border: 1px solid #8c8f94;
+    background: #fff;
+}
+
+.ozmd-preview > :first-child {
+    margin-top: 0;
+}
+
+.ozmd-preview > :last-child {
+    margin-bottom: 0;
+}
+
+.ozmd-preview table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ozmd-preview th,
+.ozmd-preview td {
+    padding: 0.5rem;
+    border: 1px solid #c3c4c7;
+    text-align: left;
+}
+
+.ozmd-preview pre {
+    max-width: 100%;
+    overflow: auto;
+    padding: 0.75rem;
+    background: #f6f7f7;
+}
+
+@media screen and (max-width: 1100px) {
+    .ozmd-editor-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

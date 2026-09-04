@@ -35,6 +35,7 @@ Version 0.1.0 includes:
 - SHA-256 source hashing;
 - CommonMark and GitHub-Flavored Markdown rendering;
 - tables and fenced code blocks;
+- split Markdown editing and server-rendered live preview;
 - raw HTML disabled by default;
 - final WordPress HTML allow-list filtering;
 - generated HTML caching;
@@ -49,7 +50,6 @@ Version 0.1.0 includes:
 - Gutenberg reference block;
 - Mermaid and other executable diagrams;
 - syntax-highlighting JavaScript bundles;
-- live or split-pane preview;
 - Git synchronization;
 - S3 or CloudFront publishing;
 - automatic AWS credential handling;

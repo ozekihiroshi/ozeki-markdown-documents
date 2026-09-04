@@ -14,6 +14,7 @@ model.
 - Markdown source revisions.
 - CommonMark and GitHub-Flavored Markdown rendering.
 - Safe server-side HTML rendering and cache invalidation.
+- Split Markdown editing and server-rendered live preview.
 - Tables and fenced code blocks.
 - Public document permalinks.
 - Shortcode-based embedding by document ID.
@@ -31,7 +32,7 @@ outside the first release.
 The first vertical slice is running in an isolated WordPress environment. It
 currently includes the dedicated editor, exact UTF-8 Markdown import/export,
 source revisions and restore, safe CommonMark/GFM rendering, rendered-cache
-invalidation, public permalinks, and shortcode references.
+invalidation, split live preview, public permalinks, and shortcode references.
 
 The automated manual tests cover exact .md HTTP round trips, source revision
 restore, unsafe HTML and link handling, generated cache reuse, and shortcode

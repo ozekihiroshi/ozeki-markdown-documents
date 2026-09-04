@@ -42,11 +42,17 @@ final class Plugin
         $postType = new DocumentPostType();
         $meta = new DocumentMeta();
         $markdownSource = new MarkdownSource();
-        $editor = new DocumentEditor($meta, $markdownSource, $this->pluginFile);
+        $markdownRenderer = new MarkdownRenderer();
+        $editor = new DocumentEditor(
+            $meta,
+            $markdownSource,
+            $markdownRenderer,
+            $this->pluginFile
+        );
         $transfer = new DocumentTransfer(
             new MarkdownDocumentImporter($markdownSource)
         );
-        $renderer = new CachedDocumentRenderer(new MarkdownRenderer());
+        $renderer = new CachedDocumentRenderer($markdownRenderer);
 
         add_action('init', [$postType, 'register']);
         add_action('init', [$meta, 'register']);

@@ -24,6 +24,10 @@ final class DocumentTransfer
         add_action('admin_menu', [$this, 'registerImportPage']);
         add_action('admin_post_' . self::IMPORT_ACTION, [$this, 'handleImport']);
         add_action('admin_post_' . self::EXPORT_ACTION, [$this, 'handleExport']);
+        add_action(
+            'add_meta_boxes_' . DocumentPostType::POST_TYPE,
+            [$this, 'addExportMetaBox']
+        );
         add_filter('post_row_actions', [$this, 'addExportAction'], 10, 2);
         add_action('admin_notices', [$this, 'showImportNotice']);
     }
@@ -135,24 +139,54 @@ final class DocumentTransfer
             return $actions;
         }
 
-        $url = wp_nonce_url(
-            add_query_arg(
-                [
-                    'action' => self::EXPORT_ACTION,
-                    'post_id' => $post->ID,
-                ],
-                admin_url('admin-post.php')
-            ),
-            self::EXPORT_ACTION . '_' . $post->ID
-        );
-
         $actions['ozmd_export'] = sprintf(
             '<a href="%s">%s</a>',
-            esc_url($url),
+            esc_url($this->exportUrl($post->ID)),
             esc_html__('Export .md', 'ozeki-markdown-documents')
         );
 
         return $actions;
+    }
+
+    public function addExportMetaBox(\WP_Post $post): void
+    {
+        if (! current_user_can('edit_post', $post->ID)) {
+            return;
+        }
+
+        add_meta_box(
+            'ozmd-export-document',
+            __('Markdown Export', 'ozeki-markdown-documents'),
+            [$this, 'renderExportMetaBox'],
+            DocumentPostType::POST_TYPE,
+            'side',
+            'default'
+        );
+    }
+
+    public function renderExportMetaBox(\WP_Post $post): void
+    {
+        if ($post->post_status === 'auto-draft') {
+            echo '<p>';
+            echo esc_html__(
+                'Save the document once before exporting its Markdown source.',
+                'ozeki-markdown-documents'
+            );
+            echo '</p>';
+            return;
+        }
+
+        echo '<p>';
+        echo esc_html__(
+            'Download the canonical Markdown source without generated HTML.',
+            'ozeki-markdown-documents'
+        );
+        echo '</p>';
+        echo '<p><a class="button button-secondary" href="';
+        echo esc_url($this->exportUrl($post->ID));
+        echo '">';
+        echo esc_html__('Export .md', 'ozeki-markdown-documents');
+        echo '</a></p>';
     }
 
     public function handleExport(): void
@@ -271,6 +305,20 @@ final class DocumentTransfer
         }
 
         return $filename;
+    }
+
+    private function exportUrl(int $postId): string
+    {
+        return wp_nonce_url(
+            add_query_arg(
+                [
+                    'action' => self::EXPORT_ACTION,
+                    'post_id' => $postId,
+                ],
+                admin_url('admin-post.php')
+            ),
+            self::EXPORT_ACTION . '_' . $postId
+        );
     }
 
     private function redirectWithNotice(
