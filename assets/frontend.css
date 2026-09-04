@@ -1,0 +1,15 @@
+.ozmd-document img,
+.ozmd-mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.ozmd-mermaid {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+}
+
+.ozmd-mermaid-error {
+    border-left: 4px solid #b32d2e;
+}

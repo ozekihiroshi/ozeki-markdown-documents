@@ -36,6 +36,7 @@ Version 0.1.0 includes:
 - CommonMark and GitHub-Flavored Markdown rendering;
 - tables and fenced code blocks;
 - split Markdown editing and server-rendered live preview;
+- Mermaid fenced diagrams in preview and published documents;
 - raw HTML disabled by default;
 - final WordPress HTML allow-list filtering;
 - generated HTML caching;
@@ -48,7 +49,7 @@ Version 0.1.0 includes:
 
 - Gutenberg-based Markdown source editing;
 - Gutenberg reference block;
-- Mermaid and other executable diagrams;
+- executable diagram callbacks, links, or arbitrary JavaScript;
 - syntax-highlighting JavaScript bundles;
 - Git synchronization;
 - S3 or CloudFront publishing;
@@ -164,6 +165,13 @@ The implementation must not treat a Markdown parser as an HTML sanitizer.
 Scripts, event-handler attributes, unsafe URL schemes, iframes, and arbitrary
 SVG are not allowed by default.
 
+Mermaid source remains a fenced code block in the canonical Markdown and in
+the server-rendered HTML. A locally bundled, fixed Mermaid version converts
+that code to SVG in the browser only when a document contains a Mermaid fence.
+It uses strict security, disables HTML labels and click behavior, limits text
+and edge counts, and preserves the original code block if rendering fails.
+No executable code is loaded from a CDN.
+
 Rendering failures must leave the Markdown source intact and must not publish
 partially generated HTML.
 
@@ -234,6 +242,8 @@ Before a public release:
 - import/export round-trip tests pass;
 - revision restore tests pass;
 - XSS and unsafe-link fixtures pass;
+- valid Mermaid SVG, invalid-diagram fallback, and conditional asset-loading
+  tests pass;
 - cache invalidation tests pass;
 - fresh ZIP install, activation, deactivation, reactivation, and uninstall are
   verified in the isolated ZIP-test environment;

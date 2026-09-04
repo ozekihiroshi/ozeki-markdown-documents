@@ -1,0 +1,13 @@
+{
+    "name": "ozeki-markdown-documents",
+    "version": "0.1.0-dev",
+    "private": true,
+    "description": "Build tooling for locally bundled browser assets.",
+    "license": "GPL-2.0-or-later",
+    "scripts": {
+        "build:mermaid": "node tools/build-mermaid.mjs"
+    },
+    "devDependencies": {
+        "mermaid": "11.17.2"
+    }
+}

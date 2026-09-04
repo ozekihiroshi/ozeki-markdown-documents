@@ -5,6 +5,7 @@ use OzekiMarkdownDocuments\Content\DocumentPostType;
 use OzekiMarkdownDocuments\Content\MarkdownDocumentImporter;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
 use OzekiMarkdownDocuments\Frontend\DocumentShortcode;
+use OzekiMarkdownDocuments\Frontend\MermaidAssets;
 use OzekiMarkdownDocuments\Rendering\CachedDocumentRenderer;
 use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
@@ -31,6 +32,11 @@ This is **canonical** source with ~~GFM~~.
 <script>alert('unsafe');</script>
 
 [unsafe link](javascript:alert('unsafe'))
+
+~~~mermaid
+flowchart LR
+    A[Markdown] --> B[Diagram]
+~~~
 MARKDOWN;
 
 $sourceV2 = <<<'MARKDOWN'
@@ -78,6 +84,10 @@ try {
     $assert(str_contains($html, '<h1>Portable Markdown</h1>'), 'Heading was not rendered.');
     $assert(str_contains($html, '<table>'), 'GFM table was not rendered.');
     $assert(str_contains($html, '<del>GFM</del>'), 'GFM strikethrough was not rendered.');
+    $assert(
+        str_contains($html, 'class="language-mermaid"'),
+        'Mermaid fenced code was not preserved for browser rendering.'
+    );
     $assert(! str_contains($html, '<script'), 'Raw script HTML was not neutralized.');
     $assert(! str_contains($html, 'href="javascript:'), 'Unsafe link was not neutralized.');
 
@@ -87,10 +97,17 @@ try {
     $assert(strlen($renderHash) === 64, 'Render hash was not stored.');
     $assert($renderer->render($postId) === $html, 'Cached render changed the output.');
 
-    $shortcode = new DocumentShortcode($renderer);
+    $mermaidAssets = new MermaidAssets(
+        WP_PLUGIN_DIR . '/ozeki-markdown-documents/ozeki-markdown-documents.php'
+    );
+    $shortcode = new DocumentShortcode($renderer, $mermaidAssets);
     $shortcodeHtml = $shortcode->render(['id' => $postId]);
     $assert(str_contains($shortcodeHtml, 'ozmd-document'), 'Shortcode wrapper is missing.');
     $assert(str_contains($shortcodeHtml, 'Portable Markdown'), 'Shortcode content is missing.');
+    $assert(
+        wp_script_is('ozmd-mermaid-renderer', 'enqueued'),
+        'Mermaid assets were not conditionally enqueued.'
+    );
 
     update_post_meta($postId, DocumentMeta::SOURCE, $sourceV2);
     update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $sourceV2));
@@ -118,6 +135,7 @@ try {
     echo 'renderer=commonmark_gfm_safe' . PHP_EOL;
     echo 'cache=verified' . PHP_EOL;
     echo 'shortcode=verified' . PHP_EOL;
+    echo 'mermaid_assets=conditional' . PHP_EOL;
     echo 'meta_revision=restored' . PHP_EOL;
     echo 'md_import=exact_bytes_preserved' . PHP_EOL;
     echo 'result=success' . PHP_EOL;

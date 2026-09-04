@@ -9,8 +9,10 @@ use OzekiMarkdownDocuments\Rendering\CachedDocumentRenderer;
 
 final class DocumentContentFilter
 {
-    public function __construct(private readonly CachedDocumentRenderer $renderer)
-    {
+    public function __construct(
+        private readonly CachedDocumentRenderer $renderer,
+        private readonly MermaidAssets $mermaidAssets
+    ) {
     }
 
     public function filter(string $content): string
@@ -32,6 +34,8 @@ final class DocumentContentFilter
         if (is_wp_error($rendered)) {
             return DocumentMarkup::renderError($rendered);
         }
+
+        $this->mermaidAssets->enqueueForHtml($rendered);
 
         return DocumentMarkup::wrap($postId, $rendered);
     }

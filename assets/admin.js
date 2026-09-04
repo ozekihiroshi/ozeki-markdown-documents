@@ -55,6 +55,9 @@
                 }
 
                 preview.innerHTML = result.data.html;
+                if (typeof window.ozmdRenderMermaid === 'function') {
+                    window.ozmdRenderMermaid(preview);
+                }
                 setStatus(ozmdPreview.labels.ready, false);
             })
             .catch(function (error) {

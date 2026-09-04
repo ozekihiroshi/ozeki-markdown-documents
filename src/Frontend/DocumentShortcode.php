@@ -11,8 +11,10 @@ final class DocumentShortcode
 {
     public const TAG = 'ozeki_markdown_document';
 
-    public function __construct(private readonly CachedDocumentRenderer $renderer)
-    {
+    public function __construct(
+        private readonly CachedDocumentRenderer $renderer,
+        private readonly MermaidAssets $mermaidAssets
+    ) {
     }
 
     /**
@@ -39,6 +41,8 @@ final class DocumentShortcode
         if (is_wp_error($rendered)) {
             return DocumentMarkup::renderError($rendered);
         }
+
+        $this->mermaidAssets->enqueueForHtml($rendered);
 
         return DocumentMarkup::wrap($postId, $rendered);
     }

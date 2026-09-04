@@ -73,6 +73,17 @@
     background: #f6f7f7;
 }
 
+.ozmd-preview img,
+.ozmd-preview .ozmd-mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.ozmd-preview .ozmd-mermaid {
+    overflow-x: auto;
+    text-align: center;
+}
+
 @media screen and (max-width: 1100px) {
     .ozmd-editor-grid {
         grid-template-columns: minmax(0, 1fr);
