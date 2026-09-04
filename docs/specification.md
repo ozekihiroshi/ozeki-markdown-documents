@@ -129,7 +129,7 @@ Import must:
 
 - require an authenticated user who can create documents;
 - verify a nonce;
-- enforce an explicit size limit;
+- enforce a 5 MiB size limit;
 - validate the extension and UTF-8 source;
 - reject NUL bytes and malformed uploads;
 - sanitize the filename independently from the Markdown body;

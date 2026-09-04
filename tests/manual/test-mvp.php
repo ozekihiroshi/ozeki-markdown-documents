@@ -1,0 +1,129 @@
+<?php
+
+use OzekiMarkdownDocuments\Content\DocumentMeta;
+use OzekiMarkdownDocuments\Content\DocumentPostType;
+use OzekiMarkdownDocuments\Content\MarkdownDocumentImporter;
+use OzekiMarkdownDocuments\Content\MarkdownSource;
+use OzekiMarkdownDocuments\Frontend\DocumentShortcode;
+use OzekiMarkdownDocuments\Rendering\CachedDocumentRenderer;
+use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
+
+if (! defined('ABSPATH')) {
+    fwrite(STDERR, "Run this file with wp eval-file.\n");
+    exit(1);
+}
+
+$assert = static function (bool $condition, string $message): void {
+    if (! $condition) {
+        throw new RuntimeException($message);
+    }
+};
+
+$sourceV1 = <<<'MARKDOWN'
+# Portable Markdown
+
+This is **canonical** source with ~~GFM~~.
+
+| Format | Stored as |
+| --- | --- |
+| Markdown | UTF-8 text |
+
+<script>alert('unsafe');</script>
+
+[unsafe link](javascript:alert('unsafe'))
+MARKDOWN;
+
+$sourceV2 = <<<'MARKDOWN'
+# Portable Markdown, revised
+
+The second version remains reusable.
+MARKDOWN;
+
+$importSource = "# Imported UTF-8\r\n\r\n日本語と改行をそのまま保持します。\r\n";
+$importedPostId = 0;
+
+$postId = wp_insert_post(
+    [
+        'post_type' => DocumentPostType::POST_TYPE,
+        'post_status' => 'publish',
+        'post_title' => 'MVP verification document',
+    ],
+    true
+);
+
+if (is_wp_error($postId)) {
+    throw new RuntimeException($postId->get_error_message());
+}
+
+try {
+    $importer = new MarkdownDocumentImporter(new MarkdownSource());
+    $importedPostId = $importer->createDraft('portable-document.md', $importSource);
+    $assert(is_int($importedPostId), 'Markdown import returned an error.');
+    $assert(
+        get_post_meta($importedPostId, DocumentMeta::SOURCE, true) === $importSource,
+        'Markdown import did not preserve the exact source bytes.'
+    );
+    $assert(
+        get_post_meta($importedPostId, DocumentMeta::ORIGINAL_FILENAME, true) === 'portable-document.md',
+        'Markdown import did not preserve the source filename.'
+    );
+
+    update_post_meta($postId, DocumentMeta::SOURCE, $sourceV1);
+    update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $sourceV1));
+    wp_update_post(['ID' => $postId, 'post_title' => 'MVP verification document v1']);
+
+    $renderer = new CachedDocumentRenderer(new MarkdownRenderer());
+    $html = $renderer->render($postId);
+    $assert(is_string($html), 'Rendering returned an error.');
+    $assert(str_contains($html, '<h1>Portable Markdown</h1>'), 'Heading was not rendered.');
+    $assert(str_contains($html, '<table>'), 'GFM table was not rendered.');
+    $assert(str_contains($html, '<del>GFM</del>'), 'GFM strikethrough was not rendered.');
+    $assert(! str_contains($html, '<script'), 'Raw script HTML was not neutralized.');
+    $assert(! str_contains($html, 'href="javascript:'), 'Unsafe link was not neutralized.');
+
+    $cachedHtml = (string) get_post_meta($postId, DocumentMeta::RENDERED_HTML, true);
+    $renderHash = (string) get_post_meta($postId, DocumentMeta::RENDER_HASH, true);
+    $assert($cachedHtml === $html, 'Rendered HTML cache does not match.');
+    $assert(strlen($renderHash) === 64, 'Render hash was not stored.');
+    $assert($renderer->render($postId) === $html, 'Cached render changed the output.');
+
+    $shortcode = new DocumentShortcode($renderer);
+    $shortcodeHtml = $shortcode->render(['id' => $postId]);
+    $assert(str_contains($shortcodeHtml, 'ozmd-document'), 'Shortcode wrapper is missing.');
+    $assert(str_contains($shortcodeHtml, 'Portable Markdown'), 'Shortcode content is missing.');
+
+    update_post_meta($postId, DocumentMeta::SOURCE, $sourceV2);
+    update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $sourceV2));
+    wp_update_post(['ID' => $postId, 'post_title' => 'MVP verification document v2']);
+
+    $revisions = wp_get_post_revisions($postId);
+    $revisionWithV1 = null;
+
+    foreach ($revisions as $revision) {
+        if (get_metadata('post', $revision->ID, DocumentMeta::SOURCE, true) === $sourceV1) {
+            $revisionWithV1 = $revision;
+            break;
+        }
+    }
+
+    $assert($revisionWithV1 instanceof WP_Post, 'No revision contains the first Markdown source.');
+    $restored = wp_restore_post_revision($revisionWithV1->ID);
+    $assert($restored === $postId, 'Revision restore failed.');
+    $assert(
+        get_post_meta($postId, DocumentMeta::SOURCE, true) === $sourceV1,
+        'Revision restore did not restore the Markdown source.'
+    );
+
+    echo 'post_type=registered' . PHP_EOL;
+    echo 'renderer=commonmark_gfm_safe' . PHP_EOL;
+    echo 'cache=verified' . PHP_EOL;
+    echo 'shortcode=verified' . PHP_EOL;
+    echo 'meta_revision=restored' . PHP_EOL;
+    echo 'md_import=exact_bytes_preserved' . PHP_EOL;
+    echo 'result=success' . PHP_EOL;
+} finally {
+    wp_delete_post($postId, true);
+    if (is_int($importedPostId) && $importedPostId > 0) {
+        wp_delete_post($importedPostId, true);
+    }
+}

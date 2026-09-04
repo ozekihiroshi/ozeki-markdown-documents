@@ -7,7 +7,7 @@ The Markdown source remains the canonical content. HTML is generated output,
 and Gutenberg is an optional placement layer rather than the document data
 model.
 
-## Planned first release
+## Implemented first-release foundation
 
 - Dedicated Markdown Document content type.
 - UTF-8 `.md` import and export.
@@ -28,7 +28,15 @@ outside the first release.
 
 ## Status
 
-The project is in the specification and initial architecture phase.
+The first vertical slice is running in an isolated WordPress environment. It
+currently includes the dedicated editor, exact UTF-8 Markdown import/export,
+source revisions and restore, safe CommonMark/GFM rendering, rendered-cache
+invalidation, public permalinks, and shortcode references.
+
+The automated manual tests cover exact .md HTTP round trips, source revision
+restore, unsafe HTML and link handling, generated cache reuse, and shortcode
+rendering. Release packaging and the full WordPress compatibility matrix remain
+before the first public release.
 
 See [the specification](docs/specification.md) and
 [architecture decisions](docs/decisions/0001-document-source-and-integration.md).

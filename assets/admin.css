@@ -1,0 +1,7 @@
+.ozmd-source {
+    box-sizing: border-box;
+    min-height: 32rem;
+    resize: vertical;
+    tab-size: 4;
+    white-space: pre;
+}
