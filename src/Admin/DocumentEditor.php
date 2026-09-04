@@ -8,6 +8,7 @@ use OzekiMarkdownDocuments\Content\DocumentMeta;
 use OzekiMarkdownDocuments\Content\DocumentPostType;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
 use OzekiMarkdownDocuments\Frontend\MermaidAssets;
+use OzekiMarkdownDocuments\Frontend\MathAssets;
 use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
 final class DocumentEditor
@@ -23,6 +24,7 @@ final class DocumentEditor
         private readonly MarkdownSource $markdownSource,
         private readonly MarkdownRenderer $renderer,
         private readonly MermaidAssets $mermaidAssets,
+        private readonly MathAssets $mathAssets,
         private readonly string $pluginFile
     ) {
     }
@@ -136,11 +138,12 @@ final class DocumentEditor
         );
 
         $this->mermaidAssets->enqueue();
+        $this->mathAssets->enqueue();
 
         wp_enqueue_script(
             'ozmd-admin',
             plugins_url('assets/admin.js', $this->pluginFile),
-            ['ozmd-mermaid-renderer'],
+            ['ozmd-mermaid-renderer', 'ozmd-math-renderer'],
             '0.1.0-dev',
             true
         );

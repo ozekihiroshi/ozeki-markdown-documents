@@ -48,7 +48,15 @@ const assertions = {
     renderedSvg: dom.includes('<svg'),
     invalidDiagramFallback: dom.includes('ozmd-mermaid-error'),
     invalidSourceRetained: dom.includes('language-mermaid'),
-    unsafeMermaidLinkAbsent: !dom.includes('javascript:alert'),
+    unsafeMermaidLinkAbsent: !dom.includes('href="javascript:alert'),
+    localMathRenderer: dom.includes('assets/math-render.js'),
+    localKatexStylesheet: dom.includes('assets/vendor/katex/katex.min.css'),
+    asciiMathRendered: dom.includes('data-ozmd-math-format="asciimath"'),
+    latexRendered: dom.includes('data-ozmd-math-format="latex"'),
+    katexOutputPresent: dom.includes('class="katex"'),
+    copyLatexButtonPresent: dom.includes('class="ozmd-math-copy"'),
+    invalidMathFallback: dom.includes('ozmd-math-error'),
+    unsafeMathLinkAbsent: !dom.includes('href="javascript:'),
     rawScriptAbsent: !dom.includes('<script>This must never execute')
 };
 

@@ -80,6 +80,7 @@ grep -q 'Markdown Export' "$edit_page"
 grep -q 'Export .md' "$edit_page"
 grep -q 'assets/vendor/mermaid/mermaid.min.js' "$edit_page"
 grep -q 'assets/mermaid-render.js' "$edit_page"
+grep -q 'assets/math-render.js' "$edit_page"
 
 preview_nonce=$(
     grep 'var ozmdPreview = ' "$edit_page" |
@@ -106,6 +107,14 @@ curl -fsS \
 ~~~mermaid
 flowchart LR
     A[Source] --> B[Diagram]
+~~~
+
+~~~asciimath
+a/b
+~~~
+
+~~~math
+\\frac{x + 1}{y}
 ~~~" \
     "$base_url/wp-admin/admin-ajax.php" \
     -o "$preview_response"
@@ -114,6 +123,8 @@ grep -Fq '"success":true' "$preview_response"
 grep -Fq '<h1>Live preview<\/h1>' "$preview_response"
 grep -Fq '&lt;script&gt;must not execute&lt;\/script&gt;' "$preview_response"
 grep -Fq 'class=\"language-mermaid\"' "$preview_response"
+grep -Fq 'class=\"language-asciimath\"' "$preview_response"
+grep -Fq 'class=\"language-math\"' "$preview_response"
 
 echo "import_http=success"
 echo "export_http=exact_bytes"
@@ -121,5 +132,6 @@ echo "editor_split_preview=present"
 echo "preview_ajax=safe_server_render"
 echo "editor_export_button=present"
 echo "mermaid_assets=local"
+echo "math_assets=local"
 sha256sum "$fixture" "$export_file"
 echo "test_root=$test_root"

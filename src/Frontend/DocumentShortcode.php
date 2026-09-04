@@ -13,7 +13,8 @@ final class DocumentShortcode
 
     public function __construct(
         private readonly CachedDocumentRenderer $renderer,
-        private readonly MermaidAssets $mermaidAssets
+        private readonly MermaidAssets $mermaidAssets,
+        private readonly MathAssets $mathAssets
     ) {
     }
 
@@ -43,6 +44,7 @@ final class DocumentShortcode
         }
 
         $this->mermaidAssets->enqueueForHtml($rendered);
+        $this->mathAssets->enqueueForHtml($rendered);
 
         return DocumentMarkup::wrap($postId, $rendered);
     }

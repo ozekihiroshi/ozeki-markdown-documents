@@ -13,3 +13,72 @@
 .ozmd-mermaid-error {
     border-left: 4px solid #b32d2e;
 }
+
+.ozmd-math {
+    position: relative;
+    max-width: 100%;
+}
+
+.ozmd-math-display {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+}
+
+.ozmd-math-inline {
+    display: inline-block;
+}
+
+.ozmd-math-copy {
+    position: absolute;
+    z-index: 1;
+    inset-block-start: 0.25rem;
+    inset-inline-end: 0.25rem;
+    padding: 0.15em 0.45em;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    background: Canvas;
+    color: CanvasText;
+    font: inherit;
+    font-size: 0.72em;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-in-out;
+}
+
+.ozmd-math-inline .ozmd-math-copy {
+    inset-block-start: calc(100% + 0.2em);
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+}
+
+.ozmd-math:hover > .ozmd-math-copy,
+.ozmd-math:focus-within > .ozmd-math-copy {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.ozmd-math-copy:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.ozmd-math-error {
+    border-left: 4px solid #b32d2e;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .ozmd-math-copy {
+        opacity: 0.8;
+        pointer-events: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ozmd-math-copy {
+        transition: none;
+    }
+}

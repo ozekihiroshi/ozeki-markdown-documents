@@ -13,6 +13,7 @@ use OzekiMarkdownDocuments\Content\MarkdownSource;
 use OzekiMarkdownDocuments\Frontend\DocumentContentFilter;
 use OzekiMarkdownDocuments\Frontend\DocumentShortcode;
 use OzekiMarkdownDocuments\Frontend\MermaidAssets;
+use OzekiMarkdownDocuments\Frontend\MathAssets;
 use OzekiMarkdownDocuments\Rendering\CachedDocumentRenderer;
 use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
@@ -45,11 +46,13 @@ final class Plugin
         $markdownSource = new MarkdownSource();
         $markdownRenderer = new MarkdownRenderer();
         $mermaidAssets = new MermaidAssets($this->pluginFile);
+        $mathAssets = new MathAssets($this->pluginFile);
         $editor = new DocumentEditor(
             $meta,
             $markdownSource,
             $markdownRenderer,
             $mermaidAssets,
+            $mathAssets,
             $this->pluginFile
         );
         $transfer = new DocumentTransfer(
@@ -62,15 +65,16 @@ final class Plugin
         $editor->registerHooks();
         $transfer->registerHooks();
         $mermaidAssets->registerHooks();
+        $mathAssets->registerHooks();
 
         add_filter(
             'the_content',
-            [new DocumentContentFilter($renderer, $mermaidAssets), 'filter']
+            [new DocumentContentFilter($renderer, $mermaidAssets, $mathAssets), 'filter']
         );
 
         add_shortcode(
             DocumentShortcode::TAG,
-            [new DocumentShortcode($renderer, $mermaidAssets), 'render']
+            [new DocumentShortcode($renderer, $mermaidAssets, $mathAssets), 'render']
         );
 
         register_activation_hook(

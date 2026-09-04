@@ -5,9 +5,14 @@
     "description": "Build tooling for locally bundled browser assets.",
     "license": "GPL-2.0-or-later",
     "scripts": {
+        "build:assets": "npm run build:mermaid && npm run build:math",
+        "build:math": "node tools/build-math.mjs",
         "build:mermaid": "node tools/build-mermaid.mjs"
     },
     "devDependencies": {
+        "asciimath-parser": "0.6.11",
+        "esbuild": "0.28.2",
+        "katex": "0.18.5",
         "mermaid": "11.17.2"
     }
 }

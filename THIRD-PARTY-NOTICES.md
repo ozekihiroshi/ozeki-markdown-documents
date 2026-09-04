@@ -19,3 +19,31 @@ Rebuild the bundled asset with:
 The exact dependency graph is recorded in package-lock.json. The maintained
 human-readable project source and build tooling are available in this public
 repository.
+
+## KaTeX
+
+- Package: katex
+- Version: 0.18.5
+- License: MIT
+- Source: <https://github.com/KaTeX/KaTeX>
+- Package: <https://www.npmjs.com/package/katex>
+
+The locally bundled stylesheet and fonts are stored under
+assets/vendor/katex. Its MIT license is stored beside them.
+
+## Asciimath Parser
+
+- Package: asciimath-parser
+- Version: 0.6.11
+- License: MIT
+- Source: <https://github.com/widcardw/asciimath-parser>
+- Package: <https://www.npmjs.com/package/asciimath-parser>
+
+The parser and KaTeX runtime are bundled into assets/math-render.js. The
+human-readable integration source is assets/math-render-source.js. The parser
+MIT license is stored under assets/vendor/asciimath-parser.
+
+Rebuild the math assets with:
+
+    npm ci
+    npm run build:math

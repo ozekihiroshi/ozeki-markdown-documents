@@ -21,7 +21,7 @@ final class MarkdownSource
 
     public function store(int $postId, string $source): void
     {
-        update_post_meta($postId, DocumentMeta::SOURCE, $source);
+        update_post_meta($postId, DocumentMeta::SOURCE, wp_slash($source));
         update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $source));
         delete_post_meta($postId, DocumentMeta::RENDERED_HTML);
         delete_post_meta($postId, DocumentMeta::RENDER_HASH);

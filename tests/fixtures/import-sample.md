@@ -19,3 +19,23 @@ flowchart LR
 ~~~mermaid
 this is intentionally invalid Mermaid syntax
 ~~~
+
+Inline AsciiMath: `asciimath:a/b`.
+
+Inline LaTeX: `math:\sqrt{x}`.
+
+~~~asciimath
+sum_(i=1)^n i^3
+~~~
+
+~~~math
+\frac{x + 1}{y}
+~~~
+
+~~~math
+\notARealCommand{
+~~~
+
+~~~math
+\href{javascript:alert(1)}{unsafe}
+~~~

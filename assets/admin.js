@@ -58,6 +58,9 @@
                 if (typeof window.ozmdRenderMermaid === 'function') {
                     window.ozmdRenderMermaid(preview);
                 }
+                if (typeof window.ozmdRenderMath === 'function') {
+                    window.ozmdRenderMath(preview);
+                }
                 setStatus(ozmdPreview.labels.ready, false);
             })
             .catch(function (error) {

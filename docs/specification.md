@@ -172,6 +172,23 @@ It uses strict security, disables HTML labels and click behavior, limits text
 and edge counts, and preserves the original code block if rendering fails.
 No executable code is loaded from a CDN.
 
+Math source also remains unchanged in canonical Markdown. Inline formulas use
+prefixed code spans (`math:` or `asciimath:`), while displayed formulas use
+`math`, `latex`, or `asciimath` fenced code blocks. The server renderer emits
+ordinary escaped code elements. A fixed local browser asset converts
+AsciiMath to derived LaTeX and renders both formats with KaTeX.
+
+LaTeX is the interchange format used by the explicit Copy LaTeX control.
+There is no global copy-event interception: mixed text and formula selections
+retain normal browser behavior. Derived LaTeX is disposable and is never a
+second document source.
+
+Math rendering uses `trust: false`, strict error handling, formula count and
+source-length limits, KaTeX size and expansion limits, and per-formula macro
+state. A failed formula leaves its original code visible. KaTeX, its fonts,
+and the AsciiMath converter are pinned and bundled locally rather than loaded
+from a CDN.
+
 Rendering failures must leave the Markdown source intact and must not publish
 partially generated HTML.
 
@@ -244,6 +261,8 @@ Before a public release:
 - XSS and unsafe-link fixtures pass;
 - valid Mermaid SVG, invalid-diagram fallback, and conditional asset-loading
   tests pass;
+- LaTeX and AsciiMath rendering, derived-LaTeX copy controls, invalid-formula
+  fallback, resource limits, and conditional asset-loading tests pass;
 - cache invalidation tests pass;
 - fresh ZIP install, activation, deactivation, reactivation, and uninstall are
   verified in the isolated ZIP-test environment;
@@ -263,7 +282,7 @@ Before a public release:
 
 - syntax highlighting;
 - callouts;
-- Mermaid with strict asset and security boundaries;
+- additional Mermaid and mathematics authoring assistance;
 - Markdown bundles containing referenced local assets;
 - optional Git synchronization;
 - optional S3 Markdown export integration.

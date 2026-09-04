@@ -37,7 +37,11 @@ final class CachedDocumentRenderer
             );
         }
 
-        update_post_meta($postId, DocumentMeta::RENDERED_HTML, $renderedHtml);
+        update_post_meta(
+            $postId,
+            DocumentMeta::RENDERED_HTML,
+            wp_slash($renderedHtml)
+        );
         update_post_meta($postId, DocumentMeta::RENDER_HASH, $expectedHash);
 
         return $renderedHtml;

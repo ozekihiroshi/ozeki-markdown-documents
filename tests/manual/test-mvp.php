@@ -6,6 +6,7 @@ use OzekiMarkdownDocuments\Content\MarkdownDocumentImporter;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
 use OzekiMarkdownDocuments\Frontend\DocumentShortcode;
 use OzekiMarkdownDocuments\Frontend\MermaidAssets;
+use OzekiMarkdownDocuments\Frontend\MathAssets;
 use OzekiMarkdownDocuments\Rendering\CachedDocumentRenderer;
 use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
@@ -37,6 +38,12 @@ This is **canonical** source with ~~GFM~~.
 flowchart LR
     A[Markdown] --> B[Diagram]
 ~~~
+
+Inline formula: `asciimath:a/b`.
+
+~~~math
+\frac{x + 1}{y}
+~~~
 MARKDOWN;
 
 $sourceV2 = <<<'MARKDOWN'
@@ -62,7 +69,8 @@ if (is_wp_error($postId)) {
 }
 
 try {
-    $importer = new MarkdownDocumentImporter(new MarkdownSource());
+    $markdownSource = new MarkdownSource();
+    $importer = new MarkdownDocumentImporter($markdownSource);
     $importedPostId = $importer->createDraft('portable-document.md', $importSource);
     $assert(is_int($importedPostId), 'Markdown import returned an error.');
     $assert(
@@ -74,8 +82,11 @@ try {
         'Markdown import did not preserve the source filename.'
     );
 
-    update_post_meta($postId, DocumentMeta::SOURCE, $sourceV1);
-    update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $sourceV1));
+    $markdownSource->store($postId, $sourceV1);
+    $assert(
+        get_post_meta($postId, DocumentMeta::SOURCE, true) === $sourceV1,
+        'Markdown storage did not preserve LaTeX backslashes exactly.'
+    );
     wp_update_post(['ID' => $postId, 'post_title' => 'MVP verification document v1']);
 
     $renderer = new CachedDocumentRenderer(new MarkdownRenderer());
@@ -87,6 +98,14 @@ try {
     $assert(
         str_contains($html, 'class="language-mermaid"'),
         'Mermaid fenced code was not preserved for browser rendering.'
+    );
+    $assert(
+        str_contains($html, '<code>asciimath:a/b</code>'),
+        'Inline AsciiMath was not preserved for browser rendering.'
+    );
+    $assert(
+        str_contains($html, 'class="language-math"'),
+        'LaTeX fenced code was not preserved for browser rendering.'
     );
     $assert(! str_contains($html, '<script'), 'Raw script HTML was not neutralized.');
     $assert(! str_contains($html, 'href="javascript:'), 'Unsafe link was not neutralized.');
@@ -100,7 +119,10 @@ try {
     $mermaidAssets = new MermaidAssets(
         WP_PLUGIN_DIR . '/ozeki-markdown-documents/ozeki-markdown-documents.php'
     );
-    $shortcode = new DocumentShortcode($renderer, $mermaidAssets);
+    $mathAssets = new MathAssets(
+        WP_PLUGIN_DIR . '/ozeki-markdown-documents/ozeki-markdown-documents.php'
+    );
+    $shortcode = new DocumentShortcode($renderer, $mermaidAssets, $mathAssets);
     $shortcodeHtml = $shortcode->render(['id' => $postId]);
     $assert(str_contains($shortcodeHtml, 'ozmd-document'), 'Shortcode wrapper is missing.');
     $assert(str_contains($shortcodeHtml, 'Portable Markdown'), 'Shortcode content is missing.');
@@ -108,21 +130,26 @@ try {
         wp_script_is('ozmd-mermaid-renderer', 'enqueued'),
         'Mermaid assets were not conditionally enqueued.'
     );
+    $assert(
+        wp_script_is('ozmd-math-renderer', 'enqueued'),
+        'Math assets were not conditionally enqueued.'
+    );
 
-    update_post_meta($postId, DocumentMeta::SOURCE, $sourceV2);
-    update_post_meta($postId, DocumentMeta::SOURCE_SHA256, hash('sha256', $sourceV2));
+    $revisionV1Id = _wp_put_post_revision($postId);
+    $assert(
+        is_int($revisionV1Id) && $revisionV1Id > 0,
+        'The first Markdown revision could not be created explicitly.'
+    );
+    wp_save_revisioned_meta_fields($revisionV1Id, $postId);
+    $assert(
+        get_metadata('post', $revisionV1Id, DocumentMeta::SOURCE, true) === $sourceV1,
+        'The explicit revision did not copy the Markdown source.'
+    );
+
+    $markdownSource->store($postId, $sourceV2);
     wp_update_post(['ID' => $postId, 'post_title' => 'MVP verification document v2']);
 
-    $revisions = wp_get_post_revisions($postId);
-    $revisionWithV1 = null;
-
-    foreach ($revisions as $revision) {
-        if (get_metadata('post', $revision->ID, DocumentMeta::SOURCE, true) === $sourceV1) {
-            $revisionWithV1 = $revision;
-            break;
-        }
-    }
-
+    $revisionWithV1 = get_post($revisionV1Id);
     $assert($revisionWithV1 instanceof WP_Post, 'No revision contains the first Markdown source.');
     $restored = wp_restore_post_revision($revisionWithV1->ID);
     $assert($restored === $postId, 'Revision restore failed.');
@@ -136,6 +163,8 @@ try {
     echo 'cache=verified' . PHP_EOL;
     echo 'shortcode=verified' . PHP_EOL;
     echo 'mermaid_assets=conditional' . PHP_EOL;
+    echo 'math_assets=conditional' . PHP_EOL;
+    echo 'latex_backslashes=exact_bytes_preserved' . PHP_EOL;
     echo 'meta_revision=restored' . PHP_EOL;
     echo 'md_import=exact_bytes_preserved' . PHP_EOL;
     echo 'result=success' . PHP_EOL;

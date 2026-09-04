@@ -1,1 +1,4 @@
 assets/vendor/mermaid/mermaid.min.js -diff linguist-vendored
+assets/math-render.js -diff linguist-generated
+assets/vendor/katex/** linguist-vendored
+assets/vendor/asciimath-parser/** linguist-vendored
