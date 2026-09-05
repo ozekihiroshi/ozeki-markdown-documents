@@ -41,61 +41,61 @@ final class ExampleDocument
     public static function source(): string
     {
         return <<<'MARKDOWN'
-# Markdownを美しく書くためのサンプル
+# A Well-Structured Markdown Example
 
-この文書は、基本から図・数式までを順番に試せる見本です。左側のMarkdownを変更すると、右側のプレビューへ反映されます。
+This document introduces Markdown in a disciplined order, from basic text to diagrams and formulas. Change the Markdown on the left and observe the preview on the right.
 
-## 1. 段落と文字の装飾
+## 1. Paragraphs and Emphasis
 
-空行を1つ入れると、新しい段落になります。
+Insert one blank line to start a new paragraph.
 
-**太字**、*斜体*、~~取り消し線~~、`インラインコード`を利用できます。
+Use **bold**, *italic*, ~~strikethrough~~, and `inline code` where they improve clarity.
 
-## 2. 見出し
+## 2. Headings
 
-見出しは`#`から始めます。`#`が大見出し、`##`が中見出し、`###`が小見出しです。
+Headings begin with `#`. Use `#` for the document title, `##` for sections, and `###` for subsections.
 
-### 小見出しの例
+### A Subsection Example
 
-見出しを順番に使うと、長い文書でも構造が分かりやすくなります。
+Use heading levels in order so that long documents remain easy to navigate.
 
-## 3. 箇条書きと手順
+## 3. Lists and Procedures
 
-- 箇条書きの第1項目
-- 箇条書きの第2項目
-  - 2つ空白を入れると入れ子にできます
+- First bullet point
+- Second bullet point
+  - Indent by two spaces for a nested item
 
-1. 最初の手順
-2. 次の手順
-3. 最後の確認
+1. Complete the first step
+2. Continue with the next step
+3. Confirm the result
 
-## 4. 引用とリンク
+## 4. Quotations and Links
 
-> 引用は`>`から始めます。
+> A quotation begins with `>`.
 >
-> 複数行の引用も1つのまとまりとして表示できます。
+> Several quoted lines can form one block.
 
-[WordPress公式サイト](https://wordpress.org/)のようにリンクを書けます。
+Write a link such as the [WordPress website](https://wordpress.org/).
 
-画像は `![代替テキスト](https://example.com/image.png)` の形式です。実際にはメディアライブラリの画像URLを指定してください。
+Images use `![Alternative text](https://example.com/image.png)`. In a real document, use the URL of an image from your media library.
 
-## 5. 表
+## 5. Tables
 
-| 項目 | Markdownでの表現 | 用途 |
+| Item | Markdown | Purpose |
 | --- | --- | --- |
-| 見出し | `# 見出し` | 文書の構造 |
-| 強調 | `**重要**` | 重要語の明示 |
-| コード | `` `code` `` | コマンドや変数名 |
+| Heading | `# Heading` | Document structure |
+| Emphasis | `**Important**` | Highlight a term |
+| Code | `` `code` `` | Commands and identifiers |
 
-## 6. タスクリスト
+## 6. Task Lists
 
-- [x] Markdownを書く
-- [x] プレビューで確認する
-- [ ] 公開前に読み直す
+- [x] Write the Markdown
+- [x] Check the preview
+- [ ] Review before publishing
 
-## 7. コードブロック
+## 7. Code Blocks
 
-言語名を付けると、コードの種類を明示できます。
+Add a language name to identify the kind of code.
 
 ```php
 <?php
@@ -103,116 +103,116 @@ final class ExampleDocument
 echo 'Hello, Markdown!';
 ```
 
-## 8. Mermaidによる図
+## 8. Mermaid Diagrams
 
-`mermaid`のコードフェンス内に図を記述します。
+Write the diagram inside a `mermaid` fenced code block.
 
 ```mermaid
 flowchart LR
-    Write[Markdownを書く] --> Preview[プレビューで確認]
-    Preview --> Publish[公開または再利用]
+    Write[Write Markdown] --> Preview[Check the preview]
+    Preview --> Publish[Publish or reuse]
 ```
 
-## 9. AsciiMathによる数式
+## 9. AsciiMath Formulas
 
-初心者向けのAsciiMathは、短く読みやすい記法です。インライン数式は `asciimath:a/b` のように書きます。
+Beginner-friendly AsciiMath uses short, readable notation. Write an inline formula as `asciimath:a/b`.
 
 ```asciimath
 sum_(i=1)^n i^2 = (n(n+1)(2n+1))/6
 ```
 
-## 10. LaTeXによる数式
+## 10. LaTeX Formulas
 
-LaTeXは数式交換の標準形式です。インライン数式は `math:\frac{a}{b}` のように書きます。
+LaTeX is the standard interchange format for formulas. Write an inline formula as `math:\frac{a}{b}`.
 
 ```math
 \int_{0}^{1} x^2\,dx = \frac{1}{3}
 ```
 
-数式へマウスを重ねるかキーボードでフォーカスすると、LaTeXをコピーするボタンが現れます。
+Hover over a formula or focus it with the keyboard to reveal the Copy LaTeX button.
 
-## 11. 文書の再利用
+## 11. Reusing a Document
 
-保存したMarkdown文書は、その文書自身の公開URLで表示できます。別の投稿や固定ページでは、次のショートコードで同じ文書を参照できます。
+A published Markdown document has its own URL. Reference the same document from a post or page with this shortcode:
 
 ```text
 [ozeki_markdown_document id="123"]
 ```
 
-`123`は、公開したMarkdown文書のIDへ置き換えてください。Markdown原文は`.md`ファイルとしていつでもエクスポートできます。
+Replace `123` with the ID of the published Markdown document. You can export the canonical source as a `.md` file at any time.
 MARKDOWN;
     }
 
     private static function mermaidSource(): string
     {
         return <<<'MARKDOWN'
-# Mermaid図表現の実践例
+# Practical Mermaid Diagram Examples
 
-Mermaidはテキストから図を生成します。各例のコードを書き換え、右側のプレビューで変化を確認できます。
+Mermaid generates diagrams from readable text. Change any example and observe the result in the preview.
 
-## 1. フローチャート
+## 1. Flowchart
 
-処理の流れ、判断、繰り返しを表現します。`TD`は上から下、`LR`は左から右です。
+Show processes, decisions, and loops. `TD` runs from top to bottom; `LR` runs from left to right.
 
 ```mermaid
 flowchart TD
-    Start([開始]) --> Input[データを入力]
-    Input --> Check{内容は正しい?}
-    Check -->|はい| Save[(保存)]
-    Check -->|いいえ| Input
-    Save --> End([完了])
+    Start([Start]) --> Input[Enter data]
+    Input --> Check{Is it correct?}
+    Check -->|Yes| Save[(Save)]
+    Check -->|No| Input
+    Save --> End([Complete])
 ```
 
-## 2. サブグラフを使った構成図
+## 2. Architecture with Subgraphs
 
-関連する要素をグループ化すると、システム構成を整理できます。
+Group related components to clarify a system architecture.
 
 ```mermaid
 flowchart LR
-    subgraph Browser[ブラウザー]
-        Editor[Markdown編集]
-        Preview[プレビュー]
+    subgraph Browser
+        Editor[Edit Markdown]
+        Preview[Preview]
     end
     subgraph WordPress[WordPress]
-        Parser[安全な変換]
-        Store[(Markdown保存)]
+        Parser[Safe rendering]
+        Store[(Store Markdown)]
     end
     Editor --> Parser --> Preview
     Editor --> Store
 ```
 
-## 3. シーケンス図
+## 3. Sequence Diagram
 
-利用者とシステムの間で、処理が進む時間順序を表現します。
+Show interactions between a user and system in time order.
 
 ```mermaid
 sequenceDiagram
-    actor User as 利用者
+    actor User
     participant WP as WordPress
-    participant DB as データベース
-    User->>WP: Markdownを保存
-    WP->>DB: 原文を記録
-    DB-->>WP: 保存完了
-    WP-->>User: プレビューを表示
+    participant DB as Database
+    User->>WP: Save Markdown
+    WP->>DB: Store canonical source
+    DB-->>WP: Saved
+    WP-->>User: Display preview
 ```
 
-## 4. 状態遷移図
+## 4. State Diagram
 
-文書やジョブの状態がどのように変化するかを示します。
+Show how a document or job moves between states.
 
 ```mermaid
 stateDiagram-v2
     [*] --> Draft
-    Draft --> Review: 確認を依頼
-    Review --> Draft: 修正する
-    Review --> Published: 承認する
-    Published --> Archived: 公開を終了
+    Draft --> Review: Request review
+    Review --> Draft: Revise
+    Review --> Published: Approve
+    Published --> Archived: End publication
     Archived --> [*]
 ```
 
-## 5. クラス図
+## 5. Class Diagram
 
-オブジェクトの属性、操作、関係を整理します。
+Describe object attributes, operations, and relationships.
 
 ```mermaid
 classDiagram
@@ -229,9 +229,9 @@ classDiagram
     Document "1" --> "many" Revision : preserves
 ```
 
-## 6. ER図
+## 6. Entity Relationship Diagram
 
-データベースのエンティティと関連を表現します。
+Describe database entities and their relationships.
 
 ```mermaid
 erDiagram
@@ -251,65 +251,65 @@ erDiagram
     }
 ```
 
-## 7. ガントチャート
+## 7. Gantt Chart
 
-作業期間と依存関係を含む計画を表現します。
+Show a schedule with durations and dependencies.
 
 ```mermaid
 gantt
-    title 公開までの計画
+    title Publication Plan
     dateFormat YYYY-MM-DD
-    section 実装
-    基本機能       :done, build, 2026-09-01, 3d
-    ガイド整備     :active, guide, after build, 2d
-    section 品質確認
-    自動テスト     :test, after guide, 2d
-    公開準備       :release, after test, 1d
+    section Implementation
+    Foundation       :done, build, 2026-09-01, 3d
+    Guide            :active, guide, after build, 2d
+    section Quality
+    Automated tests  :test, after guide, 2d
+    Release          :release, after test, 1d
 ```
 
-## 8. 円グラフ
+## 8. Pie Chart
 
-全体に対する割合を簡潔に示します。
+Summarize proportions of a whole.
 
 ```mermaid
 pie showData
-    title 文書作成に使う時間
-    "執筆" : 50
-    "確認" : 30
-    "修正" : 20
+    title Document Work
+    "Writing" : 50
+    "Review" : 30
+    "Revision" : 20
 ```
 
-## 安全に使うために
+## Safe Usage
 
-- 図は内容を絞り、1つの図へ情報を詰め込みすぎないようにします。
-- 外部JavaScriptやクリック処理は使用できません。
-- 構文エラーがある場合は、元のMermaidコードが表示されたままになります。
-- 図の原文はMarkdown内に残るため、未対応のビューアーでも読み取れます。
+- Keep each diagram focused instead of placing too much information in one figure.
+- External JavaScript and click handlers are not available.
+- If the syntax is invalid, the original Mermaid code remains visible.
+- Diagram source remains readable in Markdown viewers without Mermaid support.
 MARKDOWN;
     }
 
     private static function mathSource(): string
     {
         return <<<'MARKDOWN'
-# AsciiMathとLaTeXの数式実践例
+# Practical AsciiMath and LaTeX Examples
 
-AsciiMathは入力しやすく、LaTeXは幅広い数式を厳密に表現できます。数式へマウスを重ねると、LaTeXをコピーできます。
+AsciiMath is approachable to type, while LaTeX precisely expresses a wide range of mathematics. Hover over a formula to copy its LaTeX representation.
 
-## 1. 四則演算・分数・累乗
+## 1. Arithmetic, Fractions, and Powers
 
-AsciiMathでは、紙に書く感覚に近い短い記法を使えます。
+AsciiMath provides short notation that resembles handwritten mathematics.
 
 ```asciimath
 (a+b)/c + x^2 - y_1
 ```
 
-同じ考え方をLaTeXで記述すると次のようになります。
+The equivalent LaTeX is:
 
 ```math
 \frac{a+b}{c} + x^2 - y_1
 ```
 
-## 2. 平方根と括弧
+## 2. Square Roots and Parentheses
 
 ```asciimath
 sqrt(x^2+y^2) = r
@@ -319,7 +319,7 @@ sqrt(x^2+y^2) = r
 \sqrt{x^2+y^2}=r
 ```
 
-## 3. 総和と積
+## 3. Sums and Products
 
 ```asciimath
 sum_(i=1)^n i^2 = (n(n+1)(2n+1))/6
@@ -329,7 +329,7 @@ sum_(i=1)^n i^2 = (n(n+1)(2n+1))/6
 \sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
 ```
 
-## 4. 極限
+## 4. Limits
 
 ```asciimath
 lim_(x->0) (sin x)/x = 1
@@ -339,7 +339,7 @@ lim_(x->0) (sin x)/x = 1
 \lim_{x \to 0}\frac{\sin x}{x}=1
 ```
 
-## 5. 微分と積分
+## 5. Derivatives and Integrals
 
 ```asciimath
 d/dx x^n = n x^(n-1)
@@ -357,7 +357,7 @@ int_a^b f(x) dx
 \int_{a}^{b} f(x)\,\mathrm{d}x
 ```
 
-## 6. ベクトル
+## 6. Vectors
 
 ```asciimath
 vec(v) = (v_1;v_2;v_3), norm(vec(v)) = sqrt(v_1^2+v_2^2+v_3^2)
@@ -368,9 +368,9 @@ vec(v) = (v_1;v_2;v_3), norm(vec(v)) = sqrt(v_1^2+v_2^2+v_3^2)
 \qquad \lVert\vec{v}\rVert=\sqrt{v_1^2+v_2^2+v_3^2}
 ```
 
-## 7. 行列
+## 7. Matrices
 
-AsciiMathでは、`,`で列を、`;`で行を区切ります。
+In AsciiMath, `,` separates columns and `;` separates rows.
 
 ```asciimath
 A = [a,b;c,d], det(A) = ad-bc
@@ -384,7 +384,7 @@ c & d
 \qquad \det(A)=ad-bc
 ```
 
-## 8. 集合と論理
+## 8. Sets and Logic
 
 ```asciimath
 A nn B = {x | x in A ^^ x in B}, A sube B
@@ -395,7 +395,7 @@ A \cap B=\{x \mid x\in A \wedge x\in B\},
 \qquad A\subseteq B
 ```
 
-## 9. ギリシャ文字
+## 9. Greek Letters
 
 ```asciimath
 alpha, beta, gamma, Delta, theta, lambda, mu, pi, sigma, Omega
@@ -405,9 +405,9 @@ alpha, beta, gamma, Delta, theta, lambda, mu, pi, sigma, Omega
 \alpha,\ \beta,\ \gamma,\ \Delta,\ \theta,\ \lambda,\ \mu,\ \pi,\ \sigma,\ \Omega
 ```
 
-## 10. 複数行の式
+## 10. Multi-line Equations
 
-AsciiMathでは空行で改行し、`&`で等号の位置を揃えられます。
+In AsciiMath, a blank line starts a new equation line and `&` aligns the equals signs.
 
 ```asciimath
 (a+b)^2 &= (a+b)(a+b)
@@ -423,7 +423,7 @@ AsciiMathでは空行で改行し、`&`で等号の位置を揃えられます�
 \end{aligned}
 ```
 
-## 11. 場合分け
+## 11. Piecewise Definitions
 
 ```asciimath
 abs(x) = {x if x >= 0; -x if x < 0:}
@@ -436,16 +436,16 @@ x & \text{if }x\ge 0 \\
 \end{cases}
 ```
 
-## 12. インライン数式
+## 12. Inline Formulas
 
-文章の途中では `asciimath:E=mc^2` や `math:\frac{-b\pm\sqrt{b^2-4ac}}{2a}` のように、コード記法へ接頭辞を付けます。
+Inside a sentence, prefix an inline code span: `asciimath:E=mc^2` or `math:\frac{-b\pm\sqrt{b^2-4ac}}{2a}`.
 
-## 使い分け
+## Choosing a Format
 
-- すばやく入力する場合はAsciiMathから始めます。
-- AI、論文、他システムと交換する場合はLaTeXが適しています。
-- プレビューは生成結果であり、保存されるMarkdown原文を書き換えません。
-- 数式の一部と通常文をまとめて選択した場合は、ブラウザー標準のコピー動作を維持します。
+- Start with AsciiMath when quick input matters.
+- Use LaTeX when exchanging formulas with AI tools, papers, or other systems.
+- The preview is derived output and never rewrites the stored Markdown source.
+- Selecting both ordinary text and a formula keeps the browser's standard copy behavior.
 MARKDOWN;
     }
 }

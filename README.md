@@ -84,21 +84,25 @@ sample; the guides never overwrite or delete an existing document.
 
 ## Status
 
-The first vertical slice is running in an isolated WordPress environment. It
-currently includes the dedicated editor, exact UTF-8 Markdown import/export,
-source revisions and restore, safe CommonMark/GFM rendering, rendered-cache
-invalidation, split live preview, Mermaid diagrams, LaTeX and AsciiMath
-formulas, public permalinks, and shortcode references.
+Version 0.1.0 is prepared as the first public release. Automated tests cover
+exact `.md` HTTP round trips, source revision restore, unsafe HTML and URL
+handling, invalid Mermaid and formula fallback, generated cache reuse,
+shortcode rendering, locally served browser dependencies, and the bundled
+Japanese interface translation.
 
-The automated manual tests cover exact .md HTTP round trips, source revision
-restore, unsafe HTML and link handling, generated cache reuse, and shortcode
-rendering. Release packaging and the full WordPress compatibility matrix remain
-before the first public release.
+GitHub Actions runs PHP lint and Composer audit on PHP 8.1 through 8.4, audits
+and reproducibly rebuilds browser assets with Node.js 24, builds the scoped
+release ZIP, runs Plugin Check against the extracted ZIP only, and tests the
+ZIP on the supported WordPress/PHP compatibility matrix.
 
 Browser assets require Node.js 20 or later to rebuild:
 
     npm ci
     npm run build:assets
+
+Build the distributable ZIP with PHP 8.2 or later:
+
+    ./build-release.sh
 
 See [the specification](docs/specification.md) and
 [architecture decisions](docs/decisions/0001-document-source-and-integration.md).

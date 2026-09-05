@@ -20,7 +20,7 @@ use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
 final class Plugin
 {
-    public const VERSION = '0.1.0-dev';
+    public const VERSION = '0.1.0';
 
     private static ?self $instance = null;
 
@@ -42,6 +42,7 @@ final class Plugin
 
     private function registerHooks(): void
     {
+        add_action('init', [$this, 'loadTextDomain'], 0);
         $postType = new DocumentPostType();
         $meta = new DocumentMeta();
         $markdownSource = new MarkdownSource();
@@ -96,6 +97,16 @@ final class Plugin
             static function (): void {
                 flush_rewrite_rules();
             }
+        );
+    }
+
+    public function loadTextDomain(): void
+    {
+        // Bundled Japanese translations provide a usable localized first release.
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
+        load_plugin_textdomain(
+            'ozeki-markdown-documents',
+            plugin_rel_path: dirname(plugin_basename($this->pluginFile)) . '/languages'
         );
     }
 }

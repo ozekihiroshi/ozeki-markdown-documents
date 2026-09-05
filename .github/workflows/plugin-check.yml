@@ -1,0 +1,26 @@
+name: Plugin Check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          coverage: none
+      - run: sudo apt-get update && sudo apt-get install -y zip
+      - run: ./build-release.sh
+      - name: Extract the distributable ZIP
+        run: unzip -q build/ozeki-markdown-documents-0.1.0.zip -d build/plugin-check
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: build/plugin-check/ozeki-markdown-documents

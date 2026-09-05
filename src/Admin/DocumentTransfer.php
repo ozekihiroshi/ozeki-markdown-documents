@@ -82,6 +82,8 @@ final class DocumentTransfer
 
         check_admin_referer(self::IMPORT_ACTION);
 
+        // The upload metadata is validated field by field before any file is read.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $upload = $_FILES['ozmd_file'] ?? null;
         if (! is_array($upload)) {
             $this->redirectWithNotice(
@@ -213,8 +215,10 @@ final class DocumentTransfer
         header('X-Content-Type-Options: nosniff');
         header('Content-Length: ' . strlen($source));
 
-        // The exact canonical Markdown bytes are intentionally returned without HTML escaping.
-        echo $source; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        // The response is a text/markdown download. Escaping would corrupt canonical bytes.
+        // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $source;
+        // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
         exit;
     }
 
@@ -258,6 +262,8 @@ final class DocumentTransfer
             );
         }
 
+        // Direct streaming preserves exact Markdown bytes and avoids WP_Filesystem credentials.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
         $handle = fopen($path, 'rb');
         if ($handle === false) {
             return new \WP_Error(
@@ -270,6 +276,7 @@ final class DocumentTransfer
 
         try {
             while (! feof($handle)) {
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread
                 $chunk = fread($handle, 8192);
                 if ($chunk === false) {
                     return new \WP_Error(
@@ -287,6 +294,7 @@ final class DocumentTransfer
                 }
             }
         } finally {
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
             fclose($handle);
         }
 

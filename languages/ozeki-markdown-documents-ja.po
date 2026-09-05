@@ -1,0 +1,263 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ozeki Markdown Documents 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ozeki-markdown-documents\n"
+"POT-Creation-Date: 2026-09-05 00:00+0000\n"
+"PO-Revision-Date: 2026-09-05 00:00+0000\n"
+"Last-Translator: Hiroshi Ozeki\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ozeki-markdown-documents\n"
+
+msgid "Ozeki Markdown Documents"
+msgstr "Ozeki Markdown Documents"
+
+msgid "Manage Markdown as independent, reusable WordPress documents."
+msgstr "Markdownを独立した再利用可能なWordPress文書として管理します。"
+
+msgid "Hiroshi Ozeki"
+msgstr "Hiroshi Ozeki"
+
+msgid "Ozeki Markdown Documents is incomplete because its Composer dependencies are missing."
+msgstr "Composer依存パッケージがないため、Ozeki Markdown Documentsを起動できません。"
+
+msgid "Markdown Source"
+msgstr "Markdownソース"
+
+msgid "This Markdown text is the canonical document source. Rendered HTML can always be regenerated."
+msgstr "このMarkdownテキストが文書の正本です。表示用HTMLはいつでも再生成できます。"
+
+msgid "Open the Markdown guide and examples"
+msgstr "Markdownガイドと使用例を開く"
+
+msgid "Markdown"
+msgstr "Markdown"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "The Markdown source was not saved because it is not valid UTF-8 text or contains a NUL byte."
+msgstr "有効なUTF-8テキストでないかNULバイトを含むため、Markdownソースを保存しませんでした。"
+
+msgid "Updating preview…"
+msgstr "プレビューを更新しています…"
+
+msgid "Preview updated"
+msgstr "プレビューを更新しました"
+
+msgid "Preview could not be updated."
+msgstr "プレビューを更新できませんでした。"
+
+msgid "You are not allowed to preview this document."
+msgstr "この文書をプレビューする権限がありません。"
+
+msgid "Preview requires valid UTF-8 Markdown within the size limit."
+msgstr "プレビューには、サイズ上限以内の有効なUTF-8 Markdownが必要です。"
+
+msgid "The Markdown preview could not be rendered."
+msgstr "Markdownプレビューを生成できませんでした。"
+
+msgid "Import Markdown"
+msgstr "Markdownをインポート"
+
+msgid "You are not allowed to import Markdown documents."
+msgstr "Markdown文書をインポートする権限がありません。"
+
+msgid "Import one UTF-8 .md file as a new draft. The original Markdown remains the canonical source."
+msgstr "UTF-8の.mdファイルを1件、新規下書きとしてインポートします。元のMarkdownが正本として保持されます。"
+
+msgid "Import as Draft"
+msgstr "下書きとしてインポート"
+
+msgid "Maximum file size: %s."
+msgstr "最大ファイルサイズ: %s。"
+
+msgid "No Markdown file was uploaded."
+msgstr "Markdownファイルがアップロードされていません。"
+
+msgid "The Markdown upload did not complete successfully."
+msgstr "Markdownのアップロードが正常に完了しませんでした。"
+
+msgid "The Markdown file exceeds the import size limit."
+msgstr "Markdownファイルがインポートのサイズ上限を超えています。"
+
+msgid "Markdown imported as a draft."
+msgstr "Markdownを下書きとしてインポートしました。"
+
+msgid "Export .md"
+msgstr ".mdをエクスポート"
+
+msgid "Markdown Export"
+msgstr "Markdownエクスポート"
+
+msgid "Save the document once before exporting its Markdown source."
+msgstr "Markdownソースをエクスポートする前に、文書を一度保存してください。"
+
+msgid "Download the canonical Markdown source without generated HTML."
+msgstr "生成されたHTMLを含めず、正本のMarkdownソースをダウンロードします。"
+
+msgid "You are not allowed to export this Markdown document."
+msgstr "このMarkdown文書をエクスポートする権限がありません。"
+
+msgid "Edit imported document"
+msgstr "インポートした文書を編集"
+
+msgid "The uploaded Markdown file could not be verified."
+msgstr "アップロードされたMarkdownファイルを検証できませんでした。"
+
+msgid "The uploaded Markdown file could not be opened."
+msgstr "アップロードされたMarkdownファイルを開けませんでした。"
+
+msgid "The uploaded Markdown file could not be read completely."
+msgstr "アップロードされたMarkdownファイルを最後まで読み取れませんでした。"
+
+msgid "Markdown Guide"
+msgstr "Markdownガイド"
+
+msgid "Mermaid Diagram Examples"
+msgstr "Mermaid図の使用例"
+
+msgid "Mermaid Examples"
+msgstr "Mermaid使用例"
+
+msgid "AsciiMath and LaTeX Examples"
+msgstr "AsciiMathとLaTeXの使用例"
+
+msgid "Math Examples"
+msgstr "数式使用例"
+
+msgid "You are not allowed to view the Markdown guide."
+msgstr "Markdownガイドを表示する権限がありません。"
+
+msgid "Ozeki Markdown Documents Guide"
+msgstr "Ozeki Markdown Documentsガイド"
+
+msgid "← Back to the Markdown Guide"
+msgstr "← Markdownガイドへ戻る"
+
+msgid "Explore common diagram types as readable Mermaid source beside the rendered result."
+msgstr "よく使う図を、読みやすいMermaidソースと描画結果を並べて確認できます。"
+
+msgid "Compare approachable AsciiMath with standard LaTeX and copy derived LaTeX from the preview."
+msgstr "親しみやすいAsciiMathと標準的なLaTeXを比較し、プレビューから変換後のLaTeXをコピーできます。"
+
+msgid "Write portable Markdown, confirm the result beside it, and keep the original source available for import and export."
+msgstr "移植可能なMarkdownを書き、隣のプレビューで確認し、元のソースをインポート・エクスポートできます。"
+
+msgid "Create a blank document"
+msgstr "空の文書を作成"
+
+msgid "Import a .md file"
+msgstr ".mdファイルをインポート"
+
+msgid "View all documents"
+msgstr "すべての文書を表示"
+
+msgid "Create or import"
+msgstr "作成またはインポート"
+
+msgid "Start with a blank document or import an existing UTF-8 Markdown file."
+msgstr "空の文書から始めるか、既存のUTF-8 Markdownファイルをインポートします。"
+
+msgid "Write and preview"
+msgstr "編集とプレビュー"
+
+msgid "Keep Markdown on the left while checking the safe rendered result on the right."
+msgstr "左側でMarkdownを編集しながら、右側で安全な描画結果を確認します。"
+
+msgid "Publish and reuse"
+msgstr "公開と再利用"
+
+msgid "Use the document permalink, reference it with a shortcode, or export the original .md file."
+msgstr "文書のパーマリンク、ショートコード参照、元の.mdファイルのエクスポートを利用できます。"
+
+msgid "Edit the sample locally in this page and compare it with the live preview. Changes here are not saved."
+msgstr "このページ内でサンプルを編集し、ライブプレビューと比較できます。ここでの変更は保存されません。"
+
+msgid "Create this example as a new draft"
+msgstr "この使用例を新しい下書きとして作成"
+
+msgid "Markdown — editable practice area"
+msgstr "Markdown — 編集できる練習欄"
+
+msgid "You are not allowed to create Markdown documents."
+msgstr "Markdown文書を作成する権限がありません。"
+
+msgid "The example draft was created but its editing URL is unavailable."
+msgstr "使用例の下書きを作成しましたが、編集URLを取得できませんでした。"
+
+msgid "Example library"
+msgstr "使用例ライブラリ"
+
+msgid "Markdown essentials"
+msgstr "Markdownの基本"
+
+msgid "A disciplined path from paragraphs to publishing and reuse."
+msgstr "段落から公開・再利用までを順序立てて学べます。"
+
+msgid "Mermaid diagram library"
+msgstr "Mermaid図ライブラリ"
+
+msgid "Flow, sequence, state, class, ER, Gantt and pie diagrams."
+msgstr "フロー、シーケンス、状態、クラス、ER、ガント、円グラフを扱います。"
+
+msgid "AsciiMath and LaTeX library"
+msgstr "AsciiMathとLaTeXライブラリ"
+
+msgid "Fractions through calculus, matrices, sets and multi-line formulas."
+msgstr "分数から微積分、行列、集合、複数行の数式まで扱います。"
+
+msgid "Markdown Documents"
+msgstr "Markdown文書"
+
+msgid "Markdown Document"
+msgstr "Markdown文書"
+
+msgid "Add New Markdown Document"
+msgstr "新しいMarkdown文書を追加"
+
+msgid "Edit Markdown Document"
+msgstr "Markdown文書を編集"
+
+msgid "New Markdown Document"
+msgstr "新しいMarkdown文書"
+
+msgid "View Markdown Document"
+msgstr "Markdown文書を表示"
+
+msgid "Search Markdown Documents"
+msgstr "Markdown文書を検索"
+
+msgid "No Markdown documents found."
+msgstr "Markdown文書が見つかりません。"
+
+msgid "No Markdown documents found in Trash."
+msgstr "ゴミ箱にMarkdown文書はありません。"
+
+msgid "Interactive Markdown Example"
+msgstr "対話式Markdown使用例"
+
+msgid "Choose a file with the .md or .markdown extension."
+msgstr ".mdまたは.markdown拡張子のファイルを選択してください。"
+
+msgid "The Markdown file must be valid UTF-8 text without NUL bytes."
+msgstr "MarkdownファイルはNULバイトを含まない有効なUTF-8テキストである必要があります。"
+
+msgid "Imported Markdown Document"
+msgstr "インポートしたMarkdown文書"
+
+msgid "Copy LaTeX"
+msgstr "LaTeXをコピー"
+
+msgid "Copied"
+msgstr "コピーしました"
+
+msgid "Copy failed"
+msgstr "コピーできませんでした"
+
+msgid "The Markdown document could not be rendered."
+msgstr "Markdown文書を描画できませんでした。"

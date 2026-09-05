@@ -175,9 +175,12 @@ final class GettingStartedPage
 
         check_admin_referer(self::CREATE_ACTION);
 
+        // The admin action nonce is verified above; the guide key is allow-listed later.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $guideKey = isset($_POST['guide'])
             ? sanitize_key(wp_unslash($_POST['guide']))
             : ExampleDocument::MARKDOWN;
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
         $example = ExampleDocument::guide($guideKey);
 
         $postId = $this->importer->createDraft(
@@ -224,6 +227,8 @@ final class GettingStartedPage
 
     private function selectedGuide(): string
     {
+        // Read-only submenu routing; the value is sanitized and strictly allow-listed below.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
 
         if ($page === self::MERMAID_PAGE_SLUG) {

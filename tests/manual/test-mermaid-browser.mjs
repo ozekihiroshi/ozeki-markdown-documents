@@ -39,6 +39,21 @@ if (result.status !== 0) {
 }
 
 const dom = result.stdout;
+const externalLibraryAssets = Array.from(
+    dom.matchAll(/(?:src|href)="([^"]+)"/gi),
+    (match) => match[1]
+).filter((value) => {
+    if (!/(?:mermaid|katex|asciimath|jsdelivr|unpkg)/i.test(value)) {
+        return false;
+    }
+
+    try {
+        const assetUrl = new URL(value, url);
+        return !['localhost', '127.0.0.1'].includes(assetUrl.hostname);
+    } catch {
+        return true;
+    }
+});
 const assertions = {
     documentWrapper: dom.includes('ozmd-document'),
     frontendStylesheet: dom.includes('assets/frontend.css'),
@@ -57,7 +72,8 @@ const assertions = {
     copyLatexButtonPresent: dom.includes('class="ozmd-math-copy"'),
     invalidMathFallback: dom.includes('ozmd-math-error'),
     unsafeMathLinkAbsent: !dom.includes('href="javascript:'),
-    rawScriptAbsent: !dom.includes('<script>This must never execute')
+    rawScriptAbsent: !dom.includes('<script>This must never execute'),
+    externalLibraryAssetsAbsent: externalLibraryAssets.length === 0
 };
 
 for (const [name, passed] of Object.entries(assertions)) {
@@ -65,6 +81,7 @@ for (const [name, passed] of Object.entries(assertions)) {
 }
 
 if (Object.values(assertions).includes(false)) {
+    externalLibraryAssets.forEach((asset) => console.error('external_asset=' + asset));
     process.exit(1);
 }
 

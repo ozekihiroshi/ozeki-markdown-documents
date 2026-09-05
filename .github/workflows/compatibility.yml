@@ -1,0 +1,42 @@
+name: WordPress Compatibility
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          coverage: none
+      - run: sudo apt-get update && sudo apt-get install -y zip
+      - run: ./build-release.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compatibility-release
+          path: build/ozeki-markdown-documents-0.1.0.zip
+          if-no-files-found: error
+
+  matrix:
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+        wordpress: ['6.4.10', '7.0.4', '7.1']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v4
+        with:
+          name: compatibility-release
+          path: build
+      - run: tests/ci/run-wordpress-integration.sh '${{ matrix.php }}' '${{ matrix.wordpress }}' build/ozeki-markdown-documents-0.1.0.zip

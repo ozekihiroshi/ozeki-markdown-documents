@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OzekiMarkdownDocuments\Admin;
 
+use OzekiMarkdownDocuments\Plugin;
 use OzekiMarkdownDocuments\Content\DocumentMeta;
 use OzekiMarkdownDocuments\Content\DocumentPostType;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
@@ -115,6 +116,8 @@ final class DocumentEditor
             return;
         }
 
+        // Canonical Markdown must not be text-sanitized; validity and size are checked separately.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $source = (string) wp_unslash($_POST['ozmd_source']);
 
         if (! $this->markdownSource->isValid($source)) {
@@ -138,7 +141,10 @@ final class DocumentEditor
             return;
         }
 
+        // This read-only screen selector is sanitized immediately and does not change state.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $postId = isset($_GET['post'])
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             ? absint(wp_unslash($_GET['post']))
             : 0;
 
@@ -151,7 +157,7 @@ final class DocumentEditor
             'ozmd-admin',
             plugins_url('assets/admin.css', $this->pluginFile),
             [],
-            '0.1.0-dev'
+            Plugin::VERSION
         );
 
         $this->mermaidAssets->enqueue();
@@ -161,7 +167,7 @@ final class DocumentEditor
             'ozmd-admin',
             plugins_url('assets/admin.js', $this->pluginFile),
             ['ozmd-mermaid-renderer', 'ozmd-math-renderer'],
-            '0.1.0-dev',
+            Plugin::VERSION,
             true
         );
 
@@ -198,6 +204,8 @@ final class DocumentEditor
             );
         }
 
+        // AJAX nonce verification above authorizes this canonical Markdown payload.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $source = isset($_POST['source'])
             ? (string) wp_unslash($_POST['source'])
             : '';
