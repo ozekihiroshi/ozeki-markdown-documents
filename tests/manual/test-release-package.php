@@ -26,6 +26,8 @@ $requiredFiles = [
     'composer.json',
     'package.json',
     'package-lock.json',
+    'tools/build-math.mjs',
+    'tools/build-mermaid.mjs',
     'vendor/autoload.php',
     'assets/admin.css',
     'assets/admin.js',
@@ -52,7 +54,6 @@ $forbiddenPaths = [
     'docs',
     'node_modules',
     'tests',
-    'tools',
     'composer.lock',
     'scoper.inc.php',
 ];
@@ -60,6 +61,31 @@ $forbiddenPaths = [
 foreach ($forbiddenPaths as $path) {
     $assert(! file_exists($pluginDirectory . '/' . $path), 'Development path leaked into release: ' . $path);
 }
+
+$releaseTools = glob($pluginDirectory . '/tools/*');
+$assert(is_array($releaseTools), 'The release build tools could not be listed.');
+$releaseTools = array_map('basename', $releaseTools);
+sort($releaseTools);
+$assert(
+    $releaseTools === ['build-math.mjs', 'build-mermaid.mjs'],
+    'Unexpected file found in the release tools directory.'
+);
+
+$packageJson = file_get_contents($pluginDirectory . '/package.json');
+$assert(is_string($packageJson), 'The release package.json could not be read.');
+$package = json_decode($packageJson, true, 512, JSON_THROW_ON_ERROR);
+$assert(
+    ($package['scripts']['build:assets'] ?? null) === 'npm run build:mermaid && npm run build:math',
+    'The release asset build command is missing or unexpected.'
+);
+$assert(
+    ($package['scripts']['build:math'] ?? null) === 'node tools/build-math.mjs',
+    'The release math build command is missing or unexpected.'
+);
+$assert(
+    ($package['scripts']['build:mermaid'] ?? null) === 'node tools/build-mermaid.mjs',
+    'The release Mermaid build command is missing or unexpected.'
+);
 
 require $autoload;
 

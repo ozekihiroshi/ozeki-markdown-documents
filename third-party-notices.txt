@@ -10,7 +10,8 @@ Package: https://www.npmjs.com/package/mermaid
 
 The browser distribution is copied to assets/vendor/mermaid/mermaid.min.js.
 Its MIT license is stored beside it. Rebuild it with `npm ci` followed by
-`npm run build:mermaid`. The exact dependency graph is recorded in
+`npm run build:mermaid`. The required `tools/build-mermaid.mjs` script is
+included in the release, and the exact dependency graph is recorded in
 package-lock.json.
 
 KaTeX
@@ -35,4 +36,5 @@ Package: https://www.npmjs.com/package/asciimath-parser
 The parser and KaTeX runtime are bundled into assets/math-render.js. The
 human-readable integration source is assets/math-render-source.js. The parser
 MIT license is stored under assets/vendor/asciimath-parser. Rebuild the math
-assets with `npm ci` followed by `npm run build:math`.
+assets with `npm ci` followed by `npm run build:math`. The required
+`tools/build-math.mjs` script is included in the release.
