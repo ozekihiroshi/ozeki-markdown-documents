@@ -60,6 +60,14 @@ final class DocumentEditor
             'This Markdown text is the canonical document source. Rendered HTML can always be regenerated.',
             'ozeki-markdown-documents'
         );
+        echo ' <a href="' . esc_url(
+            admin_url(
+                'edit.php?post_type=' . DocumentPostType::POST_TYPE
+                . '&page=ozmd-getting-started'
+            )
+        ) . '">';
+        echo esc_html__('Open the Markdown guide and examples', 'ozeki-markdown-documents');
+        echo '</a>';
         echo '</p>';
         echo '<div class="ozmd-editor-grid">';
         echo '<section class="ozmd-editor-pane">';
@@ -130,6 +138,15 @@ final class DocumentEditor
             return;
         }
 
+        $postId = isset($_GET['post'])
+            ? absint(wp_unslash($_GET['post']))
+            : 0;
+
+        $this->enqueuePreviewAssets($postId);
+    }
+
+    public function enqueuePreviewAssets(int $postId): void
+    {
         wp_enqueue_style(
             'ozmd-admin',
             plugins_url('assets/admin.css', $this->pluginFile),
@@ -147,10 +164,6 @@ final class DocumentEditor
             '0.1.0-dev',
             true
         );
-
-        $postId = isset($_GET['post'])
-            ? absint(wp_unslash($_GET['post']))
-            : 0;
 
         wp_localize_script(
             'ozmd-admin',

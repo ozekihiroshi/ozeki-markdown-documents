@@ -6,6 +6,7 @@ namespace OzekiMarkdownDocuments;
 
 use OzekiMarkdownDocuments\Admin\DocumentEditor;
 use OzekiMarkdownDocuments\Admin\DocumentTransfer;
+use OzekiMarkdownDocuments\Admin\GettingStartedPage;
 use OzekiMarkdownDocuments\Content\DocumentMeta;
 use OzekiMarkdownDocuments\Content\DocumentPostType;
 use OzekiMarkdownDocuments\Content\MarkdownDocumentImporter;
@@ -58,12 +59,17 @@ final class Plugin
         $transfer = new DocumentTransfer(
             new MarkdownDocumentImporter($markdownSource)
         );
+        $gettingStarted = new GettingStartedPage(
+            $editor,
+            new MarkdownDocumentImporter($markdownSource)
+        );
         $renderer = new CachedDocumentRenderer($markdownRenderer);
 
         add_action('init', [$postType, 'register']);
         add_action('init', [$meta, 'register']);
         $editor->registerHooks();
         $transfer->registerHooks();
+        $gettingStarted->registerHooks();
         $mermaidAssets->registerHooks();
         $mathAssets->registerHooks();
 

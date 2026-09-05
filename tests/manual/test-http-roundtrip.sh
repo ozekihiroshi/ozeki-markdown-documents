@@ -19,6 +19,9 @@ list_page=$test_root/list.html
 export_file=$test_root/exported.md
 edit_page=$test_root/edit.html
 preview_response=$test_root/preview.json
+guide_page=$test_root/guide.html
+mermaid_guide_page=$test_root/mermaid-guide.html
+math_guide_page=$test_root/math-guide.html
 
 curl -fsS -c "$cookie" "$base_url/wp-login.php" > /dev/null
 
@@ -38,6 +41,36 @@ curl -fsS \
     -b "$cookie" \
     "$base_url/wp-admin/edit.php?post_type=ozmd_document&page=ozmd-import" \
     -o "$import_page"
+
+curl -fsS \
+    -c "$cookie" \
+    -b "$cookie" \
+    "$base_url/wp-admin/edit.php?post_type=ozmd_document&page=ozmd-getting-started" \
+    -o "$guide_page"
+
+grep -q 'Ozeki Markdown Documents Guide' "$guide_page"
+grep -q 'id="ozmd-source"' "$guide_page"
+grep -q 'id="ozmd-preview"' "$guide_page"
+grep -q 'Create this example as a new draft' "$guide_page"
+grep -q 'assets/vendor/mermaid/mermaid.min.js' "$guide_page"
+grep -q 'assets/math-render.js' "$guide_page"
+
+curl -fsS \
+    -c "$cookie" \
+    -b "$cookie" \
+    "$base_url/wp-admin/edit.php?post_type=ozmd_document&page=ozmd-mermaid-examples" \
+    -o "$mermaid_guide_page"
+
+curl -fsS \
+    -c "$cookie" \
+    -b "$cookie" \
+    "$base_url/wp-admin/edit.php?post_type=ozmd_document&page=ozmd-math-examples" \
+    -o "$math_guide_page"
+
+grep -q 'Mermaid Diagram Examples' "$mermaid_guide_page"
+grep -q 'name="guide" value="mermaid"' "$mermaid_guide_page"
+grep -q 'AsciiMath and LaTeX Examples' "$math_guide_page"
+grep -q 'name="guide" value="math"' "$math_guide_page"
 
 nonce=$(
     sed -n 's/.*name="_wpnonce" value="\([^"]*\)".*/\1/p' "$import_page" |
@@ -133,5 +166,7 @@ echo "preview_ajax=safe_server_render"
 echo "editor_export_button=present"
 echo "mermaid_assets=local"
 echo "math_assets=local"
+echo "getting_started_guide=interactive_and_non_persistent"
+echo "specialized_guides=mermaid_and_math_available"
 sha256sum "$fixture" "$export_file"
 echo "test_root=$test_root"

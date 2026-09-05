@@ -2,6 +2,7 @@
 
 use OzekiMarkdownDocuments\Content\DocumentMeta;
 use OzekiMarkdownDocuments\Content\DocumentPostType;
+use OzekiMarkdownDocuments\Content\ExampleDocument;
 use OzekiMarkdownDocuments\Content\MarkdownDocumentImporter;
 use OzekiMarkdownDocuments\Content\MarkdownSource;
 use OzekiMarkdownDocuments\Frontend\DocumentShortcode;
@@ -90,6 +91,41 @@ try {
     wp_update_post(['ID' => $postId, 'post_title' => 'MVP verification document v1']);
 
     $renderer = new CachedDocumentRenderer(new MarkdownRenderer());
+    $exampleSource = ExampleDocument::source();
+    $exampleHtml = (new MarkdownRenderer())->render($exampleSource);
+    $assert(
+        str_contains($exampleHtml, '<h1>Markdownを美しく書くためのサンプル</h1>'),
+        'The built-in guide example could not be rendered.'
+    );
+    $assert(
+        str_contains($exampleHtml, 'class="language-mermaid"')
+        && str_contains($exampleHtml, 'class="language-asciimath"')
+        && str_contains($exampleHtml, 'class="language-math"'),
+        'The built-in guide does not cover diagrams and both math formats.'
+    );
+    $mermaidGuideHtml = (new MarkdownRenderer())->render(
+        ExampleDocument::guide(ExampleDocument::MERMAID)['source']
+    );
+    $mathGuideHtml = (new MarkdownRenderer())->render(
+        ExampleDocument::guide(ExampleDocument::MATH)['source']
+    );
+    $assert(
+        substr_count($mermaidGuideHtml, 'class="language-mermaid"') === 8,
+        'The Mermaid guide does not contain the expected diagram library.'
+    );
+    $assert(
+        substr_count($mathGuideHtml, 'class="language-math"') >= 10
+        && substr_count($mathGuideHtml, 'class="language-asciimath"') >= 10,
+        'The math guide does not contain the expected AsciiMath and LaTeX library.'
+    );
+    $mathGuideSource = ExampleDocument::guide(ExampleDocument::MATH)['source'];
+    $assert(
+        str_contains($mathGuideSource, 'vec(v) = (v_1;v_2;v_3)')
+        && str_contains($mathGuideSource, 'A=\\begin{bmatrix}')
+        && str_contains($mathGuideSource, 'lim_(x->0) (sin x)/x = 1')
+        && str_contains($mathGuideSource, 'abs(x) = {x if x >= 0;'),
+        'Paired AsciiMath and LaTeX guide examples are not notation-aligned.'
+    );
     $html = $renderer->render($postId);
     $assert(is_string($html), 'Rendering returned an error.');
     $assert(str_contains($html, '<h1>Portable Markdown</h1>'), 'Heading was not rendered.');
@@ -167,6 +203,8 @@ try {
     echo 'latex_backslashes=exact_bytes_preserved' . PHP_EOL;
     echo 'meta_revision=restored' . PHP_EOL;
     echo 'md_import=exact_bytes_preserved' . PHP_EOL;
+    echo 'guide_example=rendered_without_persistence' . PHP_EOL;
+    echo 'specialized_guides=mermaid_and_math_rendered' . PHP_EOL;
     echo 'result=success' . PHP_EOL;
 } finally {
     wp_delete_post($postId, true);

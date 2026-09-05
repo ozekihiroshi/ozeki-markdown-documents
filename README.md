@@ -17,6 +17,7 @@ model.
 - Split Markdown editing and server-rendered live preview.
 - Mermaid diagrams in editing preview and published documents.
 - LaTeX and beginner-friendly AsciiMath formulas with LaTeX copy controls.
+- Interactive Markdown, Mermaid, and math guide pages with ordered examples.
 - Tables and fenced code blocks.
 - Public document permalinks.
 - Shortcode-based embedding by document ID.
@@ -70,6 +71,13 @@ untrusted strict mode, size and expansion limits, and preserves the original
 code when conversion or rendering fails.
 
 ## Requirements
+
+The built-in guides present editable, non-persistent practice areas beside
+the safe live preview. The Markdown sample proceeds from paragraphs and
+headings through publishing and reuse. Dedicated libraries cover common
+Mermaid diagram types and AsciiMath/LaTeX notation from fractions through
+calculus and matrices. An explicit action can create a new draft from any
+sample; the guides never overwrite or delete an existing document.
 
 - WordPress 6.4 or later.
 - PHP 8.1 or later.
