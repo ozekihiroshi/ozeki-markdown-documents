@@ -107,6 +107,41 @@ Build the distributable ZIP with PHP 8.2 or later:
 See [the specification](docs/specification.md) and
 [architecture decisions](docs/decisions/0001-document-source-and-integration.md).
 
+## Security and privacy
+
+Raw HTML is escaped, unsafe link protocols are rejected, and rendered output
+passes through the WordPress HTML allow-list. Mermaid uses strict security with
+HTML labels disabled. KaTeX runs with trust disabled, strict error handling,
+and bounded expansion and output size. Invalid diagrams and formulas remain
+visible as source.
+
+The plugin does not collect telemetry, contact analytics services, or transmit
+document content. Mermaid, KaTeX, AsciiMath, CSS, JavaScript, and fonts are
+served from the plugin; no browser CDN is used.
+
+## Stored data and uninstall
+
+The dedicated public `ozmd_document` post type stores authored documents. Canonical
+Markdown, render-cache data, and imported filename metadata are stored as post
+meta, and WordPress revisions preserve source history. Deactivation and
+uninstall intentionally preserve documents, revisions, and associated post
+metadata so an accidental plugin removal does not destroy authored content.
+
+## Internationalization
+
+Interface strings use the `ozeki-markdown-documents` text domain. The release
+contains a POT template and a Japanese PO/MO translation. Editable example
+documents remain English portable source so Markdown, Mermaid, AsciiMath, and
+LaTeX code is not changed by interface translation.
+
+## Third-party software
+
+League CommonMark is distributed under BSD-3-Clause. Mermaid, KaTeX, and
+asciimath-parser are distributed under MIT-compatible licenses. Their license
+files and `third-party-notices.txt` are included in the release ZIP. Lock files,
+human-readable integration source, and asset build tools are retained in this
+repository.
+
 ## License
 
-GPL-2.0-or-later.
+Ozeki Markdown Documents is licensed under GPL-2.0-or-later. See `LICENSE`.
