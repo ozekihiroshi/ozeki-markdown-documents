@@ -73,6 +73,8 @@ const assertions = {
     invalidMathFallback: dom.includes('ozmd-math-error'),
     unsafeMathLinkAbsent: !dom.includes('href="javascript:'),
     rawScriptAbsent: !dom.includes('<script>This must never execute'),
+    rawIframeAbsent: !dom.includes('<iframe id="ozmd-unsafe-iframe"'),
+    rawEventHandlerAbsent: !dom.includes('data-ozmd-xss="executed"'),
     externalLibraryAssetsAbsent: externalLibraryAssets.length === 0
 };
 

@@ -33,6 +33,10 @@ This is **canonical** source with ~~GFM~~.
 
 <script>alert('unsafe');</script>
 
+<iframe id="ozmd-unsafe-iframe" src="javascript:alert('unsafe')"></iframe>
+
+<img src="invalid:" onerror="document.body.setAttribute('data-ozmd-xss', 'executed')">
+
 [unsafe link](javascript:alert('unsafe'))
 
 ~~~mermaid
@@ -144,6 +148,8 @@ try {
         'LaTeX fenced code was not preserved for browser rendering.'
     );
     $assert(! str_contains($html, '<script'), 'Raw script HTML was not neutralized.');
+    $assert(! str_contains($html, '<iframe'), 'Raw iframe HTML was not neutralized.');
+    $assert(! str_contains($html, '<img'), 'Raw event-handler HTML was not neutralized.');
     $assert(! str_contains($html, 'href="javascript:'), 'Unsafe link was not neutralized.');
 
     $cachedHtml = (string) get_post_meta($postId, DocumentMeta::RENDERED_HTML, true);

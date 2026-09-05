@@ -13,6 +13,10 @@ $source = <<<'MARKDOWN'
 
 <script>This must never execute</script>
 
+<iframe id="ozmd-unsafe-iframe" src="javascript:alert(1)"></iframe>
+
+<img src="invalid:" onerror="document.body.setAttribute('data-ozmd-xss', 'executed')">
+
 [Unsafe Markdown URL](javascript:alert(1))
 
 ```mermaid
