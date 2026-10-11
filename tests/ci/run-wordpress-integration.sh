@@ -71,6 +71,8 @@ wp() {
         -v "$volume:/var/www/html" \
         -v "$release_zip:/tmp/ozeki-markdown-documents.zip:ro" \
         -v "$test_file:/tmp/test-mvp.php:ro" \
+        -v "$(dirname "$test_file")/test-review-notices.php:/tmp/test-review-notices.php:ro" \
+        -v "$(dirname "$test_file")/../../languages/ozeki-markdown-documents-ja.mo:/tmp/ozmd-ja-fixture.mo:ro" \
         "wordpress:cli-php${php_version}" \
         wp "$@"
 }
@@ -92,7 +94,12 @@ wp plugin install /tmp/ozeki-markdown-documents.zip --activate
 
 test "$(wp core version)" = "$wordpress_version"
 wp plugin is-active ozeki-markdown-documents
+# Stage the separate language pack before a fresh WordPress request. Loading it
+# into an already-bootstrapped English request does not model real installation.
+wp eval 'wp_mkdir_p(WP_LANG_DIR . "/plugins"); if (!copy("/tmp/ozmd-ja-fixture.mo", WP_LANG_DIR . "/plugins/ozeki-markdown-documents-ja.mo")) { throw new RuntimeException("Language pack fixture copy failed"); }'
+wp language core install ja --activate
 wp eval-file /tmp/test-mvp.php
+wp eval-file /tmp/test-review-notices.php
 
 echo "php_version=$php_version"
 echo "wordpress_version=$wordpress_version"

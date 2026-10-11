@@ -200,16 +200,11 @@ try {
         'Revision restore did not restore the Markdown source.'
     );
 
-    unload_textdomain('ozeki-markdown-documents');
-    $japaneseCatalog = WP_PLUGIN_DIR
-        . '/ozeki-markdown-documents/languages/ozeki-markdown-documents-ja.mo';
-    $assert(
-        load_textdomain('ozeki-markdown-documents', $japaneseCatalog, 'ja_JP'),
-        'The bundled Japanese translation catalog could not be loaded.'
-    );
+    $japaneseCatalog = WP_LANG_DIR . '/plugins/ozeki-markdown-documents-ja.mo';
+    $assert(is_file($japaneseCatalog) && get_locale() === 'ja', 'Stage the language pack before WordPress bootstrap in the isolated test site.');
     $assert(
         __('Markdown Guide', 'ozeki-markdown-documents') === 'Markdownガイド',
-        'The bundled Japanese translation was not applied.'
+        'WordPress did not automatically apply the separate language-pack fixture.'
     );
 
     echo 'post_type=registered' . PHP_EOL;
@@ -223,7 +218,7 @@ try {
     echo 'md_import=exact_bytes_preserved' . PHP_EOL;
     echo 'guide_example=rendered_without_persistence' . PHP_EOL;
     echo 'specialized_guides=mermaid_and_math_rendered' . PHP_EOL;
-    echo 'japanese_translation=loaded' . PHP_EOL;
+    echo 'japanese_translation=wordpress_automatic_language_pack_loaded' . PHP_EOL;
     echo 'result=success' . PHP_EOL;
 } finally {
     wp_delete_post($postId, true);

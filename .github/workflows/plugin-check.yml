@@ -20,7 +20,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y zip
       - run: ./build-release.sh
       - name: Extract the distributable ZIP
-        run: unzip -q build/ozeki-markdown-documents-0.1.0.zip -d build/plugin-check
+        run: unzip -q build/ozeki-markdown-documents-0.1.1.zip -d build/plugin-check
       - uses: wordpress/plugin-check-action@v1
         with:
           build-dir: build/plugin-check/ozeki-markdown-documents

@@ -103,10 +103,9 @@ sample; the guides never overwrite or delete an existing document.
 
 ## Development and validation
 
-The directory package is ahead of this source tree. WordPress.org distributes
-0.1.1, while the implementation on this repository's main branch still declares
-0.1.0. The [directory release notes](https://wordpress.org/plugins/ozeki-markdown-documents/#developers)
-describe the later review fixes; use the packaged release for site installation.
+The source includes the WordPress.org 0.1.1 review fixes.
+Document notices are scoped to the relevant administration screens, and
+translations are delivered through WordPress.org language packs.
 
 The source includes automated tests. They cover
 exact `.md` HTTP round trips, source revision restore, unsafe HTML and URL

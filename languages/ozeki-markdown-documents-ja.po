@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Ozeki Markdown Documents 0.1.0\n"
+"Project-Id-Version: Ozeki Markdown Documents 0.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ozeki-markdown-documents\n"
 "POT-Creation-Date: 2026-09-05 00:00+0000\n"
 "PO-Revision-Date: 2026-09-05 00:00+0000\n"
@@ -22,8 +22,8 @@ msgstr "Markdownを独立した再利用可能なWordPress文書として管理�
 msgid "Hiroshi Ozeki"
 msgstr "Hiroshi Ozeki"
 
-msgid "Ozeki Markdown Documents is incomplete because its Composer dependencies are missing."
-msgstr "Composer依存パッケージがないため、Ozeki Markdown Documentsを起動できません。"
+msgid "Ozeki Markdown Documents is incomplete because its Composer dependencies are missing. Reinstall the complete plugin ZIP to resolve this error."
+msgstr "Composer依存パッケージがないため、Ozeki Markdown Documentsを起動できません。完全なプラグインZIPを再インストールして、この問題を解消してください。"
 
 msgid "Markdown Source"
 msgstr "Markdownソース"

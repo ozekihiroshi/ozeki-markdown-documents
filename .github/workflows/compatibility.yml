@@ -22,7 +22,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: compatibility-release
-          path: build/ozeki-markdown-documents-0.1.0.zip
+          path: build/ozeki-markdown-documents-0.1.1.zip
           if-no-files-found: error
 
   matrix:
@@ -39,4 +39,4 @@ jobs:
         with:
           name: compatibility-release
           path: build
-      - run: tests/ci/run-wordpress-integration.sh '${{ matrix.php }}' '${{ matrix.wordpress }}' build/ozeki-markdown-documents-0.1.0.zip
+      - run: tests/ci/run-wordpress-integration.sh '${{ matrix.php }}' '${{ matrix.wordpress }}' build/ozeki-markdown-documents-0.1.1.zip

@@ -3,7 +3,7 @@
  * Plugin Name: Ozeki Markdown Documents
  * Plugin URI: https://github.com/ozekihiroshi/ozeki-markdown-documents
  * Description: Manage Markdown as independent, reusable WordPress documents.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author: Hiroshi Ozeki
@@ -11,7 +11,6 @@
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: ozeki-markdown-documents
- * Domain Path: /languages
  */
 
 declare(strict_types=1);
@@ -26,13 +25,15 @@ if (! is_readable($ozmd_autoload_path)) {
     add_action(
         'admin_notices',
         static function (): void {
-            if (! current_user_can('activate_plugins')) {
+            $screen = get_current_screen();
+            if (! current_user_can('activate_plugins')
+                || ! $screen instanceof WP_Screen || $screen->id !== 'plugins') {
                 return;
             }
 
             echo '<div class="notice notice-error"><p>';
             echo esc_html__(
-                'Ozeki Markdown Documents is incomplete because its Composer dependencies are missing.',
+                'Ozeki Markdown Documents is incomplete because its Composer dependencies are missing. Reinstall the complete plugin ZIP to resolve this error.',
                 'ozeki-markdown-documents'
             );
             echo '</p></div>';

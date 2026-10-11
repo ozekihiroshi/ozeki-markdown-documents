@@ -38,9 +38,6 @@ $requiredFiles = [
     'assets/vendor/mermaid/LICENSE',
     'assets/vendor/katex/LICENSE',
     'assets/vendor/asciimath-parser/LICENSE',
-    'languages/ozeki-markdown-documents.pot',
-    'languages/ozeki-markdown-documents-ja.po',
-    'languages/ozeki-markdown-documents-ja.mo',
 ];
 
 foreach ($requiredFiles as $file) {
@@ -48,6 +45,7 @@ foreach ($requiredFiles as $file) {
 }
 
 $forbiddenPaths = [
+    'languages',
     '.git',
     '.github',
     'build',

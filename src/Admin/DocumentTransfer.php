@@ -224,6 +224,13 @@ final class DocumentTransfer
 
     public function showImportNotice(): void
     {
+        $screen = get_current_screen();
+        if (! $screen instanceof \WP_Screen
+            || $screen->post_type !== DocumentPostType::POST_TYPE
+            || ! current_user_can('edit_posts')) {
+            return;
+        }
+
         $userId = get_current_user_id();
         if ($userId < 1) {
             return;

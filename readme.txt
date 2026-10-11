@@ -4,7 +4,7 @@ Tags: markdown, documentation, mermaid, latex, asciimath
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -174,9 +174,12 @@ state-changing requests.
 
 = Is the interface translated? =
 
-Yes. All interface strings are translation-ready, and a Japanese translation
-is included. Markdown, Mermaid, and formula source in the editable example
-library remains portable source code.
+Interface strings are translation-ready. WordPress.org language packs provide
+translations when available; this ZIP does not bundle translation catalogs.
+Japanese translation source remains in the public repository for contribution
+to translate.wordpress.org. Until a language pack is available, interface text
+falls back to English. Editable Markdown, Mermaid and formula examples remain
+portable source code.
 
 = Can I import and export normal Markdown files? =
 
@@ -196,6 +199,12 @@ contains flowchart, sequence, state, class, ER, Gantt, and pie examples.
 
 == Changelog ==
 
+= 0.1.1 =
+
+* Limit document operation notices to Markdown document screens.
+* Limit missing-dependency guidance to the Plugins screen.
+* Use WordPress.org language packs instead of bundled translation loading.
+
 = 0.1.0 =
 
 * First public release.
@@ -205,6 +214,11 @@ contains flowchart, sequence, state, class, ER, Gantt, and pie examples.
 * Added interactive Markdown, Mermaid, and mathematics guides.
 
 == Upgrade Notice ==
+
+= 0.1.1 =
+
+Review fixes for contextual notices and WordPress.org translation delivery.
+Japanese UI requires a separately available language pack.
 
 = 0.1.0 =
 

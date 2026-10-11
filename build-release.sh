@@ -94,7 +94,7 @@ cp "${ROOT_DIR}/tools/build-math.mjs" "${stage_dir}/tools/build-math.mjs"
 cp "${ROOT_DIR}/tools/build-mermaid.mjs" "${stage_dir}/tools/build-mermaid.mjs"
 cp -R "${ROOT_DIR}/src" "${stage_dir}/src"
 cp -R "${ROOT_DIR}/assets" "${stage_dir}/assets"
-cp -R "${ROOT_DIR}/languages" "${stage_dir}/languages"
+# Keep translation source in Git; WordPress.org distributes language packs.
 
 composer install \
     --working-dir="${stage_dir}" \
