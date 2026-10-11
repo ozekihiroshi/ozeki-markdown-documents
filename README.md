@@ -1,13 +1,30 @@
 # Ozeki Markdown Documents
 
-Ozeki Markdown Documents is a WordPress plugin for managing Markdown as an
-independent, reusable document asset.
+Give Markdown documents a home in WordPress. Ozeki Markdown Documents helps
+technical writers, educators, and documentation teams publish reusable
+documents with live preview, diagrams, and formulas.
 
-The Markdown source remains the canonical content. HTML is generated output,
-and Gutenberg is an optional placement layer rather than the document data
-model.
+Keep one editable source. Each document has its own permalink and revision
+history, and can be reused in posts or pages by shortcode. Markdown remains
+the canonical content; generated HTML can be rebuilt, and `.md` import and
+export keep the source portable.
 
-## Implemented first-release foundation
+## Get the plugin
+
+Ozeki Markdown Documents is published on [WordPress.org](https://wordpress.org/plugins/ozeki-markdown-documents/).
+In WordPress, open **Plugins > Add New**, search for **Ozeki Markdown Documents**,
+then install and activate it. You can also upload the ZIP from the directory.
+
+Try one reusable document. Create or import Markdown, compare the source with
+its preview, publish the document, and embed it in a page using its shortcode.
+The built-in example guides let you practise Markdown, Mermaid, and mathematics
+before creating a draft.
+
+Use the directory package for installation. It includes the runtime libraries
+and browser assets, so authors do not need Composer or Node.js on the server.
+
+## Features
+
 
 - Dedicated Markdown Document content type.
 - UTF-8 `.md` import and export.
@@ -70,7 +87,7 @@ KaTeX 0.18.5 and asciimath-parser 0.6.11 are bundled locally. Rendering uses
 untrusted strict mode, size and expansion limits, and preserves the original
 code when conversion or rendering fails.
 
-## Requirements
+## Learning the notation
 
 The built-in guides present editable, non-persistent practice areas beside
 the safe live preview. The Markdown sample proceeds from paragraphs and
@@ -79,12 +96,19 @@ Mermaid diagram types and AsciiMath/LaTeX notation from fractions through
 calculus and matrices. An explicit action can create a new draft from any
 sample; the guides never overwrite or delete an existing document.
 
+## Requirements
+
 - WordPress 6.4 or later.
 - PHP 8.1 or later.
 
-## Status
+## Development and validation
 
-Version 0.1.0 is prepared as the first public release. Automated tests cover
+The directory package is ahead of this source tree. WordPress.org distributes
+0.1.1, while the implementation on this repository's main branch still declares
+0.1.0. The [directory release notes](https://wordpress.org/plugins/ozeki-markdown-documents/#developers)
+describe the later review fixes; use the packaged release for site installation.
+
+The source includes automated tests. They cover
 exact `.md` HTTP round trips, source revision restore, unsafe HTML and URL
 handling, invalid Mermaid and formula fallback, generated cache reuse,
 shortcode rendering, locally served browser dependencies, and the bundled
@@ -129,8 +153,10 @@ metadata so an accidental plugin removal does not destroy authored content.
 
 ## Internationalization
 
-Interface strings use the `ozeki-markdown-documents` text domain. The release
-contains a POT template and a Japanese PO/MO translation. Editable example
+Interface strings use the `ozeki-markdown-documents` text domain. This source
+tree contains a POT template and Japanese PO/MO files. The WordPress.org 0.1.1
+release uses directory language packs; available translations depend on their
+publication status. Editable example
 documents remain English portable source so Markdown, Mermaid, AsciiMath, and
 LaTeX code is not changed by interface translation.
 
