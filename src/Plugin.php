@@ -20,7 +20,7 @@ use OzekiMarkdownDocuments\Rendering\MarkdownRenderer;
 
 final class Plugin
 {
-    public const VERSION = '0.1.1';
+    public const VERSION = '0.1.2';
 
     private static ?self $instance = null;
 

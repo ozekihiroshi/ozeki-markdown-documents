@@ -3,7 +3,7 @@
  * Plugin Name: Ozeki Markdown Documents
  * Plugin URI: https://github.com/ozekihiroshi/ozeki-markdown-documents
  * Description: Manage Markdown as independent, reusable WordPress documents.
- * Version: 0.1.1
+ * Version: 0.1.2
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author: Hiroshi Ozeki

@@ -4,7 +4,7 @@ Tags: markdown, documentation, mermaid, latex, asciimath
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -198,6 +198,11 @@ Use a fenced code block whose language is `mermaid`. The Mermaid Examples page
 contains flowchart, sequence, state, class, ER, Gantt, and pie examples.
 
 == Changelog ==
+
+= 0.1.2 =
+
+* Update CommonMark to 2.10.3 to address raw-HTML filtering and GFM table parsing security advisories.
+* Preserve source documents and rebuild rendered caches with the updated parser.
 
 = 0.1.1 =
 

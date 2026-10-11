@@ -152,6 +152,12 @@ try {
     $assert(! str_contains($html, '<img'), 'Raw event-handler HTML was not neutralized.');
     $assert(! str_contains($html, 'href="javascript:'), 'Unsafe link was not neutralized.');
 
+    $truncatedTag = "<div>\n<script\n\n<span src=\"/security-regression.js\">\n";
+    $assert(
+        ! str_contains((new MarkdownRenderer())->render($truncatedTag), '<script'),
+        'An unterminated raw HTML tag survived the installed plugin renderer.'
+    );
+
     $cachedHtml = (string) get_post_meta($postId, DocumentMeta::RENDERED_HTML, true);
     $renderHash = (string) get_post_meta($postId, DocumentMeta::RENDER_HASH, true);
     $assert($cachedHtml === $html, 'Rendered HTML cache does not match.');
