@@ -56,6 +56,13 @@ was retained outside the repository for diagnosis, not released.
 The initial MVP runs also stopped because the isolated site's language was not
 set at bootstrap. The fixture was corrected; no product workaround was added.
 
+The first Actions compatibility run exposed an invalid zero hash-table offset
+in the newly compiled Japanese MO catalog. WordPress 6.4's POMO reader requires
+that offset to mark the end of the translation index even when the hash table
+has zero entries. The catalog header was corrected without changing translations.
+The catalog is a separate language-pack fixture, so the tested plugin ZIP is
+unchanged. The existing 6.4 compatibility job detects this regression.
+
 ## Release boundary
 
 Existing production sites, Resilience source, stored originals/history, previously
