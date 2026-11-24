@@ -359,3 +359,9 @@ msgstr ""
 #: src/Rendering/CachedDocumentRenderer.php:35
 msgid "The Markdown document could not be rendered."
 msgstr ""
+
+msgid "This document is not available to you."
+msgstr ""
+
+msgid "This document has membership restrictions that cannot currently be checked. Check the membership plugin and its settings."
+msgstr ""

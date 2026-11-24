@@ -31,6 +31,16 @@ final class DocumentContentFilter
             return $content;
         }
 
+        $document = get_post($postId);
+        if (!$document instanceof \WP_Post) {
+            return $content;
+        }
+        $denial = DocumentAccess::denial($document);
+        if ($denial !== null) {
+            // Keep WordPress's ordinary password-entry form on the direct page.
+            return $denial === 'password' ? get_the_password_form($document) : DocumentAccess::message($denial);
+        }
+
         $rendered = $this->renderer->render($postId);
         if (is_wp_error($rendered)) {
             return DocumentMarkup::renderError($rendered);

@@ -34,8 +34,9 @@ final class DocumentShortcode
             return '';
         }
 
-        if ($post->post_status !== 'publish' && ! current_user_can('read_post', $postId)) {
-            return '';
+        $denial = DocumentAccess::denial($post);
+        if ($denial !== null) {
+            return DocumentAccess::message($denial);
         }
 
         $rendered = $this->renderer->render($postId);

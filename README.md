@@ -20,6 +20,22 @@ its preview, publish the document, and embed it in a page using its shortcode.
 The built-in example guides let you practise Markdown, Mermaid, and mathematics
 before creating a draft.
 
+In the development source, direct views and shortcode embeds check the document's
+own visibility, password and supported WP-Members restrictions before reading
+rendered HTML, including cached HTML. A public embedding page does not make a
+restricted document public. Basic WP-Members access is supported; membership or
+expiration extensions require separate support. Recognized restrictions that
+cannot be checked keep the document hidden and show administrators an explanation.
+This source change has not yet been published to WordPress.org.
+
+The synthetic regression fixture is `tests/ci/document-access.php`. Run it only
+in disposable WordPress instances whose URLs start with `http://owr-hypothesis-`,
+with WP-Members normally installed and activated. It checks direct views, embeds,
+cold/warm render caches, passwords and provider denials; a failed check exits
+with a nonzero status. Run the `unavailable` mode in a separate instance with
+WP-Members deactivated to check retained restriction metadata. These fixtures
+create synthetic documents and accounts and must not run on a production site.
+
 Use the directory package for installation. It includes the runtime libraries
 and browser assets, so authors do not need Composer or Node.js on the server.
 

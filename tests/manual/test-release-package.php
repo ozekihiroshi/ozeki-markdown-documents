@@ -44,6 +44,15 @@ foreach ($requiredFiles as $file) {
     $assert(is_file($pluginDirectory . '/' . $file), 'Missing release file: ' . $file);
 }
 
+$accessSource = file_get_contents($pluginDirectory . '/src/Frontend/DocumentAccess.php');
+$assert(is_string($accessSource), 'Missing document access checks.');
+foreach (['wpmem_is_blocked', 'wpmem_get_post_memberships'] as $providerFunction) {
+    $assert(
+        str_contains($accessSource, "function_exists('" . $providerFunction . "')"),
+        'External provider function was renamed during packaging: ' . $providerFunction
+    );
+}
+
 $forbiddenPaths = [
     'languages',
     '.git',

@@ -1,0 +1,72 @@
+{
+  "access_matrix": true,
+  "independent_of_resilience": true,
+  "provider_unavailable": true,
+  "originals_unchanged": true,
+  "software_unchanged": {
+    "source": true,
+    "destination": true,
+    "second": true
+  },
+  "cleanup_errors": [],
+  "source-state": {
+    "guest_denied": true,
+    "member_allowed": true,
+    "http_guest_denied": true,
+    "direct_http_denied": true,
+    "password_denied": true,
+    "password_allowed": true,
+    "cache": {
+      "cold.guest": true,
+      "cold.member": true,
+      "warm.guest": true,
+      "warm.member": true
+    },
+    "document_edit": false
+  },
+  "first_state": {
+    "guest_denied": true,
+    "member_allowed": true,
+    "http_guest_denied": true,
+    "direct_http_denied": true,
+    "password_denied": true,
+    "password_allowed": true,
+    "cache": {
+      "cold.guest": true,
+      "cold.member": true,
+      "warm.guest": true,
+      "warm.member": true
+    },
+    "document_edit": false
+  },
+  "edited_state": {
+    "guest_denied": true,
+    "member_allowed": true,
+    "http_guest_denied": true,
+    "direct_http_denied": true,
+    "password_denied": true,
+    "password_allowed": true,
+    "cache": {
+      "cold.guest": true,
+      "cold.member": true,
+      "warm.guest": true,
+      "warm.member": true
+    },
+    "document_edit": true
+  },
+  "second_state": {
+    "guest_denied": true,
+    "member_allowed": true,
+    "http_guest_denied": true,
+    "direct_http_denied": true,
+    "password_denied": true,
+    "password_allowed": true,
+    "cache": {
+      "cold.guest": true,
+      "cold.member": true,
+      "warm.guest": true,
+      "warm.member": true
+    },
+    "document_edit": true
+  }
+}

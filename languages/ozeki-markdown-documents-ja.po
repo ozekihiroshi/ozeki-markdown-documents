@@ -261,3 +261,9 @@ msgstr "コピーできませんでした"
 
 msgid "The Markdown document could not be rendered."
 msgstr "Markdown文書を描画できませんでした。"
+
+msgid "This document is not available to you."
+msgstr "この文書は現在の閲覧条件では表示できません。"
+
+msgid "This document has membership restrictions that cannot currently be checked. Check the membership plugin and its settings."
+msgstr "この文書の会員制限を確認できません。会員プラグインと設定を確認してください。"

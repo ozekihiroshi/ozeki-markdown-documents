@@ -4,7 +4,7 @@ Tags: markdown, documentation, mermaid, latex, asciimath
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,12 @@ GitHub repository linked above.
 
 == Current Scope ==
 
+Direct views and shortcode embeds respect the referenced document's visibility,
+password and basic WP-Members restrictions, including when rendered HTML is cached.
+Publishing the embedding page does not remove the document's restrictions.
+Membership and expiration extensions are not supported by this integration;
+restricted content remains hidden when its access conditions cannot be checked.
+
 This release uses a dedicated Markdown document editor; Gutenberg is available
 for placing shortcodes but is not the canonical Markdown editor. The plugin
 does not provide cloud synchronization, collaborative editing, Git publishing,
@@ -199,6 +205,11 @@ contains flowchart, sequence, state, class, ER, Gantt, and pie examples.
 
 == Changelog ==
 
+= 0.1.3 =
+
+* Check document visibility, passwords and basic WP-Members restrictions before direct and embedded display, including cached HTML.
+* Keep restricted documents hidden when their membership conditions cannot be checked.
+
 = 0.1.2 =
 
 * Update CommonMark to 2.10.3 to address raw-HTML filtering and GFM table parsing security advisories.
@@ -219,6 +230,10 @@ contains flowchart, sequence, state, class, ER, Gantt, and pie examples.
 * Added interactive Markdown, Mermaid, and mathematics guides.
 
 == Upgrade Notice ==
+
+= 0.1.3 =
+
+Fix document access checks for direct views and shortcode embeds. Existing Markdown sources remain unchanged.
 
 = 0.1.1 =
 
