@@ -20,13 +20,14 @@ its preview, publish the document, and embed it in a page using its shortcode.
 The built-in example guides let you practise Markdown, Mermaid, and mathematics
 before creating a draft.
 
-In the development source, direct views and shortcode embeds check the document's
+Since version 0.1.3, direct views and shortcode embeds check the document's
 own visibility, password and supported WP-Members restrictions before reading
 rendered HTML, including cached HTML. A public embedding page does not make a
 restricted document public. Basic WP-Members access is supported; membership or
 expiration extensions require separate support. Recognized restrictions that
 cannot be checked keep the document hidden and show administrators an explanation.
-This source change has not yet been published to WordPress.org.
+Version 0.1.3 was published to WordPress.org on November 24, 2026.
+See the [release verification record](docs/verification/0.1.3-rc.1/README.md).
 
 The synthetic regression fixture is `tests/ci/document-access.php`. Run it only
 in disposable WordPress instances whose URLs start with `http://owr-hypothesis-`,
@@ -169,8 +170,8 @@ metadata so an accidental plugin removal does not destroy authored content.
 ## Internationalization
 
 Interface strings use the `ozeki-markdown-documents` text domain. This source
-tree contains a POT template and Japanese PO/MO files. The WordPress.org 0.1.1
-release uses directory language packs; available translations depend on their
+tree contains a POT template and Japanese PO/MO files. Releases since 0.1.1
+use WordPress.org language packs; available translations depend on their
 publication status. Editable example
 documents remain English portable source so Markdown, Mermaid, AsciiMath, and
 LaTeX code is not changed by interface translation.

@@ -1,6 +1,10 @@
 # 0.1.3 rc.1 verification — 2026-11-24
 
-Status: candidate only; not published to WordPress.org. Production was not changed.
+Status: published to WordPress.org as 0.1.3 on November 24, 2026, SVN r3820592.
+The user completed the authenticated SVN commit at 13:19:26 UTC (22:19:26 JST).
+The plugin directory reports 0.1.3. All 517 files in its distributed ZIP match
+the reviewed candidate by path and SHA256; see `distribution-verification.json`.
+Production site installations were not changed by this publication task.
 
 The fix checks the referenced document before reading rendered HTML or its cache.
 Direct views and embeds share visibility, password and basic WP-Members checks.
@@ -66,6 +70,7 @@ unchanged. The existing 6.4 compatibility job detects this regression.
 ## Release boundary
 
 Existing production sites, Resilience source, stored originals/history, previously
-published ZIPs and tags were not changed. WordPress.org publication remains pending.
-After Markdown Documents publication and verification, prepare the Resilience
-candidate against that released dependency.
+published ZIPs and tags were not changed. The new SVN tag is `0.1.3`.
+CI, WordPress Compatibility and Plugin Check succeeded on source commit
+`03ad73d4a83e3b0bfe1cebcb474ab70a13c568c8`, including after its main merge.
+Resilience release preparation will use the published 0.1.3 dependency.
